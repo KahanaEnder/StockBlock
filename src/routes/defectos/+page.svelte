@@ -88,6 +88,18 @@
     gravedadDefecto = 'baja';
   }
 
+  // --- RESTAR/DEVOLVER STOCK ---
+  function ajustarStock(nombreProducto: string, cantidad: number) {
+    stockStore.replace(
+      item => item.nombre === nombreProducto,
+      item => ({
+        ...item,
+        cantidad: item.cantidad + cantidad,
+        fechaModificacion: new Date().toISOString()
+      })
+    );
+  }
+
   // --- REGISTRAR DEFECTO ---
   async function registrarDefecto(reg: ProductionRecord) {
     errorMsg = '';
@@ -111,7 +123,10 @@
       const nuevo = new Defecto(reg.id, productoSeleccionado, desc, gravedadDefecto);
       await defectosStore.add(nuevo);
 
-      successMsg = `${cantDefectuosa} unidades marcadas como defectuosas (${gravedadDefecto})`;
+      // Restar del stock
+      ajustarStock(productoSeleccionado, -cantDefectuosa);
+
+      successMsg = `${cantDefectuosa} unidades marcadas como defectuosas (${gravedadDefecto}). Stock ajustado.`;
       registroActivo = null;
       cantDefectuosa = 0;
       descripcionDefecto = '';
@@ -120,12 +135,18 @@
     }
   }
 
-  // --- CERRAR DEFECTO ---
-  function cerrarDefecto(defectoId: string | number) {
+  // --- CERRAR DEFECTO (devolver al stock) ---
+  function cerrarDefecto(defecto: Defecto) {
+    const cantidad = contarCantDefectuosa(defecto.descripcion);
+
     defectosStore.replace(
-      d => String(d.id) === String(defectoId),
+      d => String(d.id) === String(defecto.id),
       d => ({ ...d, estado: 'cerrado' as const, fechaModificacion: new Date().toISOString() })
     );
+
+    // Devolver al stock
+    ajustarStock(defecto.producto, cantidad);
+    successMsg = `${cantidad} unidades devueltas al stock.`;
   }
 
   function formatearFecha(iso: string) {
@@ -265,7 +286,7 @@
                           <span class="defect-desc">{def.descripcion}</span>
                           <span class="badge {def.gravedad === 'alta' ? 'red' : def.gravedad === 'media' ? 'yellow' : 'gray'}">{def.gravedad}</span>
                           {#if def.estado === 'segunda_mano'}
-                            <button class="close-btn" onclick={() => cerrarDefecto(def.id)}>Cerrar</button>
+                            <button class="close-btn" onclick={() => cerrarDefecto(def)}>Devolver</button>
                           {:else}
                             <span class="badge green">Cerrado</span>
                           {/if}
