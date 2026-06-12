@@ -2,7 +2,6 @@
     import { defectosStore } from '$lib/stores/defectosStore';
     import { lotesStore } from '$lib/stores/lotesStore';
     import { Defecto } from '$lib/models/defecto';
-    import { get } from 'svelte/store';
 
     let loteId: number | null = null;
     let producto = '';

@@ -6,7 +6,7 @@
     export let threshold = 5;
 
     function contar(loteId: string | number) {
-        return get(defectosStore).filter(d => String(d.loteId) === String(loteId)).length;
+        return get(defectosStore).filter(d => String(d.id) === String(loteId)).length;
     }
 
     function ponerEnEspera(loteId: string | number) {
@@ -37,7 +37,7 @@
             {/if}
 
             <ul>
-            {#each $defectosStore.filter(d => d.loteId === lote.id) as def}
+            {#each $defectosStore.filter(d => d.id === lote.id) as def}
                 <li>
                     {def.producto} — {def.descripcion} ({def.gravedad})
                 </li>
