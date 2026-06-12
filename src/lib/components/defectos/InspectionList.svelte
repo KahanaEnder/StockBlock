@@ -158,8 +158,8 @@
             {modoEdicion ? 'Editar Lote' : 'Registrar Lote Producido'}
         </h2>
 
-        <label>Producto</label>
-        <select bind:value={producto}>
+        <label for="productoSelect">Producto</label>
+        <select id="productoSelect" bind:value={producto}>
             <option value="" disabled selected>-- Seleccione un producto --</option>
             {#each listaProductos as item}
                 <option value={item.nombre}>{item.nombre}</option>
@@ -168,8 +168,8 @@
             {/each}
         </select>
 
-        <label>Cantidad producida</label>
-        <input type="number" bind:value={cantidad} min="1" placeholder="0" />
+        <label for="cantidadInput">Cantidad producida</label>
+        <input id="cantidadInput" type="number" bind:value={cantidad} min="1" placeholder="0" />
 
         <div class="actions">
             <button onclick={gestionarLote} class="btn" class:btn-update={modoEdicion} class:btn-primary={!modoEdicion}>

@@ -56,25 +56,25 @@
 
   <h3>Registrar inspección por lote</h3>
   
-  <label>Lote</label>
-  <select bind:value={selectedLoteId}>
+  <label for="loteSelect">Lote</label>
+  <select id="loteSelect" bind:value={selectedLoteId}>
     <option value={null}>-- Seleccione lote --</option>
     {#each $lotesStore as l}
       <option value={l.id}>{l.producto} (#{l.id})</option>
     {/each}
   </select>
 
-  <label>Nombre del Producto (Opcional)</label>
-  <input bind:value={producto} placeholder="Nombre del producto" />
+  <label for="productoInput">Nombre del Producto (Opcional)</label>
+  <input id="productoInput" bind:value={producto} placeholder="Nombre del producto" />
 
-  <label>Inspeccionado</label>
-  <input type="number" bind:value={inspeccionado} min="0" />
+  <label for="inspeccionadoInput">Inspeccionado</label>
+  <input id="inspeccionadoInput" type="number" bind:value={inspeccionado} min="0" />
 
-  <label>Defectuoso</label>
-  <input type="number" bind:value={defectuoso} min="0" />
+  <label for="defectuosoInput">Defectuoso</label>
+  <input id="defectuosoInput" type="number" bind:value={defectuoso} min="0" />
 
-  <label>Usuario</label>
-  <input bind:value={usuario} />
+  <label for="usuarioInput">Usuario</label>
+  <input id="usuarioInput" bind:value={usuario} />
 
   <label>
     <input type="checkbox" bind:checked={autoHold} />

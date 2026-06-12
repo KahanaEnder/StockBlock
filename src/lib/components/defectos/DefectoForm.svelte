@@ -26,22 +26,22 @@
 <div class="card">
     <h2>Registrar Defecto</h2>
 
-    <label>Lote</label>
-    <select bind:value={loteId}>
+    <label for="lote">Lote</label>
+    <select id="lote" bind:value={loteId}>
         <option value={null}>-- Seleccione un lote --</option>
         {#each $lotesStore as lote}
             <option value={lote.id}>{lote.producto} (#{lote.id})</option>
         {/each}
     </select>
 
-    <label>Producto</label>
-    <input bind:value={producto} />
+    <label for="producto">Producto</label>
+    <input id="producto" bind:value={producto} />
 
-    <label>Descripción</label>
-    <textarea bind:value={descripcion}></textarea>
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" bind:value={descripcion}></textarea>
 
-    <label>Gravedad</label>
-    <select bind:value={gravedad}>
+    <label for="gravedad">Gravedad</label>
+    <select id="gravedad" bind:value={gravedad}>
         <option value="baja">Baja</option>
         <option value="media">Media</option>
         <option value="alta">Alta</option>
