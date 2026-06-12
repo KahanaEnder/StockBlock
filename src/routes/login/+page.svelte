@@ -356,29 +356,6 @@
     cursor: not-allowed;
   }
 
-  .demo-info {
-    background: rgba(76, 175, 80, 0.08);
-    border: 1px solid rgba(76, 175, 80, 0.3);
-    border-radius: 1rem;
-    padding: 1rem;
-    margin-top: 1rem;
-    font-size: 0.95rem;
-    color: #4caf50;
-  }
-
-  .demo-info p {
-    margin: 0.3rem 0;
-    font-size: 0.95rem;
-  }
-
-  .demo-info code {
-    background: rgba(76, 175, 80, 0.15);
-    padding: 0.2rem 0.6rem;
-    border-radius: 0.5rem;
-    font-family: 'Courier New', monospace;
-    font-weight: 600;
-  }
-
   @keyframes slideInUp {
     from {
       opacity: 0;
