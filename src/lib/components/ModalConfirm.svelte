@@ -18,7 +18,13 @@
 
 {#if open}
   <!-- backdrop -->
-  <div class="modal-backdrop fade show" on:click={handleCancel} />
+  <div 
+    class="modal-backdrop fade show" 
+    on:click={handleCancel}
+    on:keydown={(e) => e.key === 'Escape' && handleCancel()}
+    role="button"
+    tabindex="0"
+  ></div>
 
   <!-- modal (imitando clases bootstrap) -->
   <div class="modal d-block fade show" tabindex="-1" role="dialog" aria-modal="true" style="z-index: 1050;">

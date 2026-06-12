@@ -11,10 +11,6 @@
     onCancel();
   }
 
-  function backdropClick(e: MouseEvent) {
-    if (e.target === e.currentTarget) handleCancel();
-  }
-
   function handleKey(e: KeyboardEvent) {
     if (!open) return;
     if (e.key === 'Escape') handleCancel();
@@ -31,7 +27,13 @@
 
 {#if open}
   <!-- backdrop (estilo bootstrap) -->
-  <div class="modal-backdrop fade show" on:click={backdropClick} />
+    <div 
+    class="modal-backdrop fade show" 
+    on:click={handleCancel}
+    on:keydown={(e) => e.key === 'Escape' && handleCancel()}
+    role="button"
+    tabindex="0"
+  ></div>
 
   <!-- modal (imitando clases de bootstrap) -->
   <div class="modal d-block fade show" tabindex="-1" role="dialog" aria-modal="true" style="z-index:1050;">
