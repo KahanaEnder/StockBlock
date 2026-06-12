@@ -41,11 +41,6 @@
 
     <section id="home" class="hero" >
         <div class="hero-bg-animation">
-            <div class="floating-shape shape-1"></div>
-            <div class="floating-shape shape-2"></div>
-            <div class="floating-shape shape-3"></div>
-            <div class="geo-shape geo-1"></div>
-            <div class="geo-shape geo-2"></div>
             <div class="particles">
                 {#each Array(10) as _}
           <span class="particle"></span>
@@ -279,67 +274,6 @@
       bottom: 0;
       overflow: hidden;
       z-index: 1;
-  }
-
-  .floating-shape {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.6;
-      animation: float 25s infinite ease-in-out;
-  }
-
-  .shape-1 {
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(118, 169, 250, 0.4) 0%, transparent 70%);
-      top: -200px;
-      left: -200px;
-      animation-delay: 0s;
-  }
-
-  .shape-2 {
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(79, 131, 247, 0.3) 0%, transparent 70%);
-      top: 50%;
-      right: -150px;
-      animation-delay: 7s;
-  }
-
-  .shape-3 {
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(118, 169, 250, 0.35) 0%, transparent 70%);
-      bottom: -100px;
-      left: 20%;
-      animation-delay: 14s;
-  }
-
-  /* Geometric shapes */
-  .geo-shape {
-      position: absolute;
-      opacity: 0.1;
-      animation: rotate-float 30s infinite linear;
-  }
-
-  .geo-1 {
-      width: 300px;
-      height: 300px;
-      top: 20%;
-      right: 10%;
-      background: radial-gradient(666px at 0.4% 48%, rgb(202, 204, 227) 0%, rgb(89, 89, 99) 97.5%);
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  }
-
-  .geo-2 {
-      width: 250px;
-      height: 250px;
-      bottom: 20%;
-      left: 5%;
-      background: linear-gradient(135deg, var(--accent-blue-dark) 0%, transparent 100%);
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-      animation-delay: -10s;
   }
 
   @keyframes float {
