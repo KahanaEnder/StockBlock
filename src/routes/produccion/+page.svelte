@@ -196,8 +196,8 @@
                             <tr class:row-edit={item.id === idEdicion}>
                                 <td>{item.fechaProduccion}</td>
                                 <td><strong>{item.productoNombre}</strong></td>
-                                <td class="text-[var(--accent-blue)] font-bold">+{item.cantidad}</td>
-                                <td class="text-[var(--text-tertiary)] text-xs">
+                                <td class="text-var(--accent-blue) font-bold">+{item.cantidad}</td>
+                                <td class="text-var(--text-tertiary) text-xs">
                                     <div>Creado: {formatearFechaHora(item.fechaRegistro)}</div>
                                     {#if item.fechaModificacion}
                                         <div class="text-[#f59e0b] font-bold">Editado: {formatearFechaHora(item.fechaModificacion)}</div>
