@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { stockStore } from '../../stores/stockStore';
-  import { produccionStore } from '../../stores/produccionStore';
-  import { defectosStore } from '../../stores/defectosStore';
+  import { stockStore } from '$lib/stores/stockStore';
+  import { produccionStore } from '$lib/stores/produccionStore';
+  import { defectosStore } from '$lib/stores/defectosStore';
   import { StockItem } from '$lib/models/stock';
   import { ProductionRecord } from '$lib/models/production';
   import { Defecto } from '$lib/models/defecto';

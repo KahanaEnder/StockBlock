@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { defectosStore } from '../../../stores/defectosStore';
-    import { lotesStore } from '../../../stores/lotesStore';
+    import { defectosStore } from '$lib/stores/defectosStore';
+    import { lotesStore } from '$lib/stores/lotesStore';
     import { get } from 'svelte/store';
 
     export let threshold = 5;

@@ -1,7 +1,7 @@
 <script lang="ts">
   import ModalConfirm from '$lib/components/ModalConfirm.svelte';
   import SearchFilter from '$lib/components/SearchFilter.svelte';
-  import { ausentismoStore, type Ausentismo } from '../../stores/ausentismoStore';
+  import { ausentismoStore, type Ausentismo } from '$lib/stores/ausentismoStore';
   import { goto } from '$app/navigation';
 
   // Estado del formulario

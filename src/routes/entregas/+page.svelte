@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
-  import { entregasStore } from '../../stores/entregasStore';
+  import { entregasStore } from '$lib/stores/entregasStore';
   import { Entrega } from '$lib/models/entrega'; 
   import ModalConfirm from '$lib/components/ModalConfirm.svelte';
   import SearchFilter from '$lib/components/SearchFilter.svelte';

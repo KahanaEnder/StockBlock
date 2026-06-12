@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { inspectionsStore, addInspection } from '../../../stores/inspectionsStore';
-  import { lotesStore } from '../../../stores/lotesStore';
+  import { inspectionsStore, addInspection } from '$lib/stores/inspectionsStore';
+  import { lotesStore } from '$lib/stores/lotesStore';
   import { Inspection } from '$lib/models/inspection';
   import { get } from 'svelte/store';
 

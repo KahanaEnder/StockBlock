@@ -1,11 +1,12 @@
 <script lang="ts">
     import { StockItem } from '$lib/models/stock';
-    import { stockStore } from '../../stores/stockStore';
+    import { stockStore } from '$lib/stores/stockStore';
     import { goto } from '$app/navigation';
 
     // --- ESTADO PRINCIPAL ---
     let inventario: StockItem[] = [];
     let errorMsg = '';
+    let successMsg = '';
 
     stockStore.subscribe(value => { inventario = value; });
 
@@ -34,18 +35,17 @@
     // --- UTILIDADES DE FECHA ---
     function formatearFecha(isoString: string | null): string {
         if (!isoString) return '-';
-        return new Date(isoString).toLocaleDateString('es-CO', { 
+        return new Date(isoString).toLocaleDateString('es-CO', {
             day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute:'2-digit'
         });
     }
 
     // --- ACCIONES DE GESTIÓN ---
-
-    // 1. Función Inteligente: Sirve para CREAR y para EDITAR
     async function gestionarProducto() {
         if (!nuevoNombre.trim()) return;
         const catFinal = nuevaCategoria.trim() === '' ? 'General' : nuevaCategoria;
         errorMsg = '';
+        successMsg = '';
 
         try {
             if (modoEdicion && idEdicion !== null) {
@@ -57,33 +57,29 @@
                     stockMinimo: nuevoMinimo,
                     fechaModificacion: new Date().toISOString()
                 }));
+                successMsg = 'Producto actualizado';
                 cancelarEdicion();
             } else {
                 const nuevoItem = new StockItem(nuevoNombre, nuevaCantidad, catFinal, nuevoMinimo);
                 await stockStore.add(nuevoItem);
+                successMsg = 'Producto registrado';
                 limpiarFormulario();
             }
         } catch (e: any) {
             errorMsg = `Error guardando: ${e.message || e}`;
-            console.error('Error en gestionarProducto:', e);
         }
     }
 
-    // 2. Cargar datos en el formulario para editar
     function iniciarEdicion(item: StockItem) {
         nuevoNombre = item.nombre;
         nuevaCantidad = item.cantidad;
         nuevaCategoria = item.categoria;
         nuevoMinimo = item.stockMinimo;
-        
         idEdicion = item.id;
         modoEdicion = true;
-        
-        // Scroll suave hacia arriba para ver el formulario
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 3. Cancelar edición
     function cancelarEdicion() {
         modoEdicion = false;
         idEdicion = null;
@@ -109,213 +105,252 @@
     }
 </script>
 
-<div class="container">
-    <header>
-        <h1>📦 Gestión de Stock</h1>
-    </header>
+<div class="dark-page">
+    <h1 class="page-title">📦 Gestión de Stock</h1>
 
-    {#if errorMsg}
-        <div style="background: #ff4d4f22; color: #ff4d4f; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #ff4d4f;">
-            ⚠️ {errorMsg}
-        </div>
-    {/if}
+    <section class="dark-section">
+        {#if errorMsg}
+            <div class="msg msg-error">{errorMsg}</div>
+        {/if}
+        {#if successMsg}
+            <div class="msg msg-success">{successMsg}</div>
+        {/if}
 
-    <section class="panel form-panel" class:editing-mode={modoEdicion}>
-        <div class="form-header">
-            <h3>{modoEdicion ? '✏️ Editando Producto' : '➕ Registrar Nuevo Producto'}</h3>
-            {#if modoEdicion}
-                <button class="btn-cancel-top" onclick={cancelarEdicion}>Cancelar</button>
-            {/if}
-        </div>
+        <!-- FORMULARIO -->
+        <div class="card-glass w-full max-w-4xl">
+            <h2 class="section-title">{modoEdicion ? '✏️ Editando Producto' : '➕ Registrar Nuevo Producto'}</h2>
 
-        <div class="form-row">
-            <input type="text" placeholder="Nombre (ej. Arena)" bind:value={nuevoNombre} />
-            
-            <input type="text" placeholder="Categoría" list="lista-cat" bind:value={nuevaCategoria} />
-            <datalist id="lista-cat">
-                <option value="Materiales"></option>
-                <option value="Herramientas"></option>
-            </datalist>
-
-            <div class="input-small">
-                <!-- svelte-ignore a11y_label_has_associated_control -->
-                <label class="lbl-tiny">Cant.</label>
-                <input type="number" bind:value={nuevaCantidad} />
-            </div>
-            
-            <div class="input-small">
-                <!-- svelte-ignore a11y_label_has_associated_control -->
-                <label class="lbl-tiny">Mín.</label>
-                <input type="number" bind:value={nuevoMinimo} title="Stock Mínimo" />
+            <div class="form-grid">
+                <div class="form-group-dark">
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" type="text" placeholder="Ej: Arena" bind:value={nuevoNombre} class="input-dark" />
+                </div>
+                <div class="form-group-dark">
+                    <label for="categoria">Categoría</label>
+                    <input id="categoria" type="text" placeholder="Ej: Materiales" list="lista-cat" bind:value={nuevaCategoria} class="input-dark" />
+                    <datalist id="lista-cat">
+                        <option value="Materiales"></option>
+                        <option value="Herramientas"></option>
+                    </datalist>
+                </div>
+                <div class="form-group-dark">
+                    <label for="cantidad">Cantidad</label>
+                    <input id="cantidad" type="number" bind:value={nuevaCantidad} class="input-dark" />
+                </div>
+                <div class="form-group-dark">
+                    <label for="minimo">Stock Mínimo</label>
+                    <input id="minimo" type="number" bind:value={nuevoMinimo} class="input-dark" />
+                </div>
             </div>
 
-            <div class="actions">
-                <button class={modoEdicion ? 'btn-update' : 'btn-save'} onclick={gestionarProducto}>
+            <div class="form-actions">
+                <button class="btn-primary-dark" onclick={gestionarProducto}>
                     {modoEdicion ? 'Actualizar' : 'Guardar'}
                 </button>
-                
                 {#if modoEdicion}
-                    <button class="btn-cancel" onclick={cancelarEdicion}>❌</button>
+                    <button class="btn-cancel-dark" onclick={cancelarEdicion}>Cancelar</button>
                 {/if}
             </div>
         </div>
-    </section>
 
-    <section class="panel list-panel">
-        <div class="toolbar">
-            <div class="search-group">
-                <label for="buscador">🔍 Buscador del sistema:</label>
-                <input 
-                    id="buscador"
-                    type="text" 
-                    placeholder="Escribe el nombre del producto..." 
-                    bind:value={busqueda} 
-                    class="search-input"
-                />
-            </div>
-            <div class="filter-group">
-                <!-- svelte-ignore a11y_label_has_associated_control -->
-                <label>Filtrar por Categoría:</label>
-                <select bind:value={categoriaFiltro}>
-                    {#each categoriasDisponibles as cat}
-                        <option value={cat}>{cat}</option>
-                    {/each}
-                </select>
-            </div>
-        </div>
+        <!-- LISTA -->
+        <div class="card-glass w-full max-w-4xl">
+            <h2 class="section-title">📋 Inventario</h2>
 
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Fechas</th> <th>Existencias</th>
-                        <th>Disponibilidad (HU04)</th>
-                        <th style="text-align: center;">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {#each productosVisibles as item (item.id)}
-                        <tr class:alerta={item.cantidad < item.stockMinimo && item.cantidad > 0}
-                            class:agotado={item.cantidad <= 0}
-                            class:seleccionado={item.id === idEdicion}>
-                            
-                            <td>
-                                <strong>{item.nombre}</strong><br>
-                                <span class="tag">{item.categoria}</span>
-                            </td>
-                            
-                            <td class="fechas-col">
-                                <div class="date-row">📅 Creado: {formatearFecha(item.fechaCreacion)}</div>
-                                {#if item.fechaModificacion}
-                                    <div class="date-row mod">📝 Última modificación: {formatearFecha(item.fechaModificacion)}</div>
-                                {/if}
-                            </td>
-                            
-                            <td>{item.cantidad}</td>
-                            
-                            <td>
-                                {#if item.cantidad <= 0}
-                                    <span class="badge red">🚫 Agotado</span>
-                                {:else if item.cantidad < item.stockMinimo}
-                                    <span class="badge yellow">⚠️ Stock Bajo</span>
-                                {:else}
-                                    <span class="badge green">✅ Disponible</span>
-                                {/if}
-                            </td>
-                            
-                            <td class="actions-cell">
-                                <button class="btn-icon edit" onclick={() => iniciarEdicion(item)} title="Editar">✏️</button>
-                                <button class="btn-icon del" onclick={() => eliminarProducto(item.id)} title="Borrar">🗑️</button>
-                            </td>
-                        </tr>
-                    {:else}
+            <div class="toolbar">
+                <div class="form-group-dark flex-2">
+                    <label for="buscador">Buscar</label>
+                    <input id="buscador" type="text" placeholder="Nombre del producto..." bind:value={busqueda} class="input-dark" />
+                </div>
+                <div class="form-group-dark flex-1">
+                    <label for="filtro-cat">Categoría</label>
+                    <select id="filtro-cat" bind:value={categoriaFiltro} class="input-dark">
+                        {#each categoriasDisponibles as cat}
+                            <option value={cat}>{cat}</option>
+                        {/each}
+                    </select>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="styled-table-dark text-sm">
+                    <thead>
                         <tr>
-                            <td colspan="5" class="empty">
-                                {#if inventario.length === 0}
-                                    Inventario vacío.
-                                {:else}
-                                    No se encontró "<strong>{busqueda}</strong>".
-                                {/if}
-                            </td>
+                            <th>Producto</th>
+                            <th>Fechas</th>
+                            <th>Stock</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
-                    {/each}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {#each productosVisibles as item (item.id)}
+                            <tr class:row-alerta={item.cantidad < item.stockMinimo && item.cantidad > 0}
+                                class:row-agotado={item.cantidad <= 0}
+                                class:row-edit={item.id === idEdicion}>
+                                <td>
+                                    <strong>{item.nombre}</strong>
+                                    <span class="tag">{item.categoria}</span>
+                                </td>
+                                <td class="fechas-col">
+                                    <div>Creado: {formatearFecha(item.fechaCreacion)}</div>
+                                    {#if item.fechaModificacion}
+                                        <div class="mod">Modificado: {formatearFecha(item.fechaModificacion)}</div>
+                                    {/if}
+                                </td>
+                                <td class="font-bold">{item.cantidad}</td>
+                                <td>
+                                    {#if item.cantidad <= 0}
+                                        <span class="badge red">Agotado</span>
+                                    {:else if item.cantidad < item.stockMinimo}
+                                        <span class="badge yellow">Stock Bajo</span>
+                                    {:else}
+                                        <span class="badge green">Disponible</span>
+                                    {/if}
+                                </td>
+                                <td class="actions-cell">
+                                    <button class="btn-icon edit" onclick={() => iniciarEdicion(item)} title="Editar">✏️</button>
+                                    <button class="btn-icon del" onclick={() => eliminarProducto(item.id)} title="Borrar">🗑️</button>
+                                </td>
+                            </tr>
+                        {:else}
+                            <tr>
+                                <td colspan="5" class="empty">
+                                    {#if inventario.length === 0}
+                                        Inventario vacío.
+                                    {:else}
+                                        No se encontró "{busqueda}".
+                                    {/if}
+                                </td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="volver-container">
+            <button class="btn btn-outline-light btn-lg volver-btn" onclick={() => goto('/ruta_main')}>
+                Volver al menú principal
+            </button>
         </div>
     </section>
-
-    <div style = "display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 1rem;">
-
-  <button type="button" class="btn btn-secondary btn-lg"
-  onclick = {() => goto('/ruta_main')}
-  >
-    Volver al menú principal
-  </button>
-
-</div>
-
 </div>
 
 <style>
-    .container { max-width: 950px; margin: 20px auto; font-family: sans-serif; color: #333; }
-    .panel { background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.3s; }
-    
-    /* Estilos Modo Edición */
-    .editing-mode { border-color: #ffc107; background-color: #fffdf5; border-left: 5px solid #ffc107; }
-    .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .form-header h3 { margin: 0; }
-    
-    /* Formulario */
-    .form-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
-    input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; flex: 1; height: 38px; box-sizing: border-box; }
-    .input-small { flex: 0 0 70px; display: flex; flex-direction: column; }
-    .lbl-tiny { font-size: 0.7rem; color: #666; margin-bottom: 2px; }
-    
-    /* Botones */
-    button { border: none; border-radius: 4px; cursor: pointer; font-weight: bold; height: 38px; padding: 0 16px; }
-    .actions { display: flex; gap: 5px; }
-    .btn-save { background: #007bff; color: white; }
-    .btn-save:hover { background: #0056b3; }
-    .btn-update { background: #ffc107; color: #333; }
-    .btn-update:hover { background: #e0a800; }
-    .btn-cancel { background: #6c757d; color: white; padding: 0 10px; }
-    .btn-cancel-top { background: transparent; color: #666; font-size: 0.8rem; height: auto; padding: 0; text-decoration: underline; }
+    .msg {
+        padding: 1rem 1.5rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        width: 100%;
+        max-width: 48rem;
+        text-align: center;
+    }
+    .msg-error { background: rgba(255, 77, 79, 0.15); color: #ff4d4f; border: 1px solid #ff4d4f; }
+    .msg-success { background: rgba(76, 175, 80, 0.15); color: #4caf50; border: 1px solid #4caf50; }
 
-    /* Tabla */
-    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle; }
-    th { background: #f1f3f5; font-weight: 600; }
-    
-    /* Fechas */
-    .fechas-col { font-size: 0.75rem; color: #666; }
-    .date-row { white-space: nowrap; }
-    .mod { color: #e67e22; font-weight: bold; }
+    .section-title {
+        color: var(--accent-blue);
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
 
-    /* Estados Visuales */
-    .alerta { background-color: #fff9db; }
-    .agotado { background-color: #fff5f5; opacity: 0.9; }
-    .seleccionado { background-color: #e3f2fd; outline: 2px solid #2196f3; } /* Resaltar fila editada */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    @media (max-width: 768px) {
+        .form-grid { grid-template-columns: 1fr 1fr; }
+    }
 
-    .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; color: white; display: inline-block; }
-    .green { background: #28a745; }
-    .yellow { background: #ffc107; color: #333; }
-    .red { background: #dc3545; }
-    .tag { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; color: #555; margin-top: 4px; display: inline-block; }
+    .form-group-dark {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    .form-group-dark label {
+        color: var(--accent-blue);
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+    .input-dark {
+        width: 100%;
+        padding: 0.6rem 0.8rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--accent-blue);
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+        font-size: 0.95rem;
+        outline: none;
+        box-sizing: border-box;
+    }
+    .input-dark:focus { border: 2px solid var(--accent-blue); background: rgba(255, 255, 255, 0.12); }
+    .input-dark::placeholder { color: rgba(255, 255, 255, 0.4); }
 
-    .actions-cell { display: flex; gap: 5px; justify-content: center; }
-    .btn-icon { background: white; border: 1px solid #ddd; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; }
-    .btn-icon:hover { background: #f8f9fa; }
-    .btn-icon.del { color: #dc3545; border-color: #fadbd8; }
-    .btn-icon.edit { color: #007bff; border-color: #d6e9f9; }
-    
-    .empty { text-align: center; padding: 30px; color: #777; font-style: italic; }
-    
-    .toolbar { display: flex; gap: 20px; margin-bottom: 15px; background: #f8f9fa; padding: 15px; border-radius: 6px; align-items: flex-end; }
-    .search-group { flex: 2; } .filter-group { flex: 1; }
-    .search-input { border: 2px solid #007bff; }
+    .form-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+    .btn-cancel-dark {
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: transparent;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .btn-cancel-dark:hover { background: rgba(255, 255, 255, 0.1); }
+
+    .toolbar {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    .flex-1 { flex: 1; }
+    .flex-2 { flex: 2; }
+
+    .fechas-col { font-size: 0.75rem; color: var(--text-tertiary); }
+    .mod { color: #f59e0b; font-weight: bold; }
+
+    .row-alerta { background: rgba(250, 204, 21, 0.08); }
+    .row-agotado { background: rgba(248, 113, 113, 0.08); }
+    .row-edit { background: rgba(79, 131, 247, 0.12); }
+
+    .badge { padding: 0.2rem 0.5rem; border-radius: 0.3rem; font-size: 0.7rem; font-weight: 700; }
+    .badge.green { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+    .badge.yellow { background: rgba(250, 204, 21, 0.2); color: #facc15; }
+    .badge.red { background: rgba(248, 113, 113, 0.2); color: #f87171; }
+
+    .tag {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 0.15rem 0.4rem;
+        border-radius: 0.3rem;
+        font-size: 0.7rem;
+        color: var(--text-tertiary);
+        margin-left: 0.5rem;
+    }
+
+    .actions-cell { display: flex; gap: 0.3rem; justify-content: center; }
+    .btn-icon {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+    .btn-icon:hover { background: rgba(255, 255, 255, 0.1); }
+    .btn-icon.del { color: #f87171; }
+    .btn-icon.edit { color: #60a5fa; }
+
+    .empty { text-align: center; padding: 2rem; color: var(--text-tertiary); font-style: italic; }
+    .font-bold { font-weight: 700; }
 </style>

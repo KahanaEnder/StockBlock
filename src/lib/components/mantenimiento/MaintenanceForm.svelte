@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { mantenimientoStore } from '../../../stores/mantenimientoStore';
+    import { mantenimientoStore } from '$lib/stores/mantenimientoStore';
     import type { Mantenimiento } from '$lib/models/mantenimiento';
     import { goto } from '$app/navigation';
 

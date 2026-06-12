@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte'; // Importación necesaria
-    import { lotesStore } from '../../../stores/lotesStore';
-    import { stockStore } from '../../../stores/stockStore';
+    import { lotesStore } from '$lib/stores/lotesStore';
+    import { stockStore } from '$lib/stores/stockStore';
     import { Lote } from '$lib/models/lote';
     import { get } from 'svelte/store';
     import { goto } from '$app/navigation';
