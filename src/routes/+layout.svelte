@@ -2,7 +2,7 @@
 	import './layout.css';
 	import favicon from '$lib/assets/icon_mecamblock.png';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { authStore } from '$lib/stores/authStore';
 	import { onMount } from 'svelte';
 
@@ -29,7 +29,7 @@
 
 			if (!state.loading) {
 				clearTimeout(fallbackTimer);
-				const currentPath = $page.url.pathname;
+				const currentPath = page.url.pathname;
 				const isPublicRoute = publicRoutes.some(route => currentPath.startsWith(route));
 
 				if (state.isLoggedIn || isPublicRoute) {
@@ -50,7 +50,7 @@
 	$effect(() => {
 		if (isLoading) return;
 
-		const currentPath = $page.url.pathname;
+		const currentPath = page.url.pathname;
 		const isPublicRoute = publicRoutes.some(route => currentPath.startsWith(route));
 
 		if (isLoggedIn || isPublicRoute) {
