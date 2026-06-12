@@ -1,15 +1,14 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   export let title: string = '';
   export let open: boolean = false;
   export let size: '' | 'modal-sm' | 'modal-lg' | 'modal-xl' = '';
   export let centered: boolean = true;
-
-  const dispatch = createEventDispatcher<{ cancel: void; open: boolean }>();
+  export let onCancel: () => void = () => {};
 
   function handleCancel() {
     open = false;
-    dispatch('cancel');
+    onCancel();
   }
 
   function backdropClick(e: MouseEvent) {

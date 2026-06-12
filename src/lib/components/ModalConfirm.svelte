@@ -1,19 +1,17 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-
   export let title = 'Confirmar';
   export let message = '';
   // El padre puede usar bind:open para abrir/cerrar el modal
   export let open = false;
-
-  const dispatch = createEventDispatcher<{ confirm: void; cancel: void }>();
+  export let onConfirm: () => void = () => {};
+  export let onCancel: () => void = () => {};
 
   function handleConfirm() {
-    dispatch('confirm');
+    onConfirm();
     open = false;
   }
   function handleCancel() {
-    dispatch('cancel');
+    onCancel();
     open = false;
   }
 </script>

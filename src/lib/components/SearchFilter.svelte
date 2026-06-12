@@ -1,15 +1,12 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-
-  // Declaramos que este componente despacha un evento "change" con { value: string }
-  const dispatch = createEventDispatcher<{ change: { value: string } }>();
-
   export let placeholder = 'Buscar...';
+  export let onChange: (value: string) => void = () => {};
+
   let value = '';
 
   function handleInput(e: Event) {
     value = (e.target as HTMLInputElement).value;
-    dispatch('change', { value });
+    onChange(value);
   }
 </script>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
 
   export let width = 800;            // ancho lógico del canvas (px)
   export let height = 300;           // alto lógico del canvas (px)
@@ -10,8 +10,10 @@
   export let compressWidth = 800;    // ancho objetivo al comprimir (px). Pon null para no escalar.
   export let mimeType = 'image/webp';// 'image/webp' o 'image/jpeg'
   export let quality = 0.6;          // 0..1 calidad de compresión
-
-  const dispatch = createEventDispatcher();
+  export let onSigned: (when: string) => void = () => {};
+  export let onCleared: () => void = () => {};
+  export let onError: (message: string) => void = () => {};
+  export let onSaved: (data: { dataUrl: string; sizeBytes: number; mimeType: string; timestamp: string }) => void = () => {};
 
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D | null = null;
@@ -70,7 +72,7 @@
     if (!hasSigned && movementAccum > SIGN_THRESHOLD) {
       hasSigned = true;
       // evento que notifica que usuario firmó (o hizo un trazo)
-      dispatch('signed', { when: new Date().toISOString() });
+      onSigned(new Date().toISOString());
     }
   }
 
@@ -91,7 +93,7 @@
     hasSigned = false;
     movementAccum = 0;
     localStorage.removeItem(storageKey);
-    dispatch('cleared');
+    onCleared();
   }
 
   // Crea una versión comprimida (escalada si compressWidth < width)
@@ -143,20 +145,17 @@
       localStorage.setItem(storageKey, dataUrl);
       const bytes = base64BytesSize(dataUrl);
       
-      // --- MODIFICACIÓN AQUÍ ---
-      // Agregamos 'dataUrl' al detalle del evento dispatch
-      dispatch('saved', { 
-          dataUrl, // <--- Importante: enviamos la imagen al padre
+      onSaved({ 
+          dataUrl,
           sizeBytes: bytes, 
           mimeType, 
           timestamp: new Date().toISOString() 
       });
-      // -------------------------
 
       return { dataUrl, sizeBytes: bytes };
     } catch (err) {
       console.error('Error saving to localStorage', err);
-      dispatch('error', { message: 'Error al guardar en localStorage' });
+      onError('Error al guardar en localStorage');
       return null;
     }
   }
