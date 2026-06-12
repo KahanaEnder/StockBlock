@@ -57,7 +57,7 @@
       horasTrabajadas: horasTrabajadas!,
       observaciones: observaciones.trim(),
       causaMayorFuerza,
-      fechaCreacion: new Date().toISOString()
+      fechaRegistro: new Date().toISOString()
     };
 
     ausentismoStore.add(newItem);
@@ -66,7 +66,7 @@
 
   // Editar
   function startEdit(item: Ausentismo) {
-    editingId = item.id;
+    editingId = item.id ?? null;
     operario = item.operario;
     horasTrabajadas = item.horasTrabajadas;
     observaciones = item.observaciones;
@@ -93,8 +93,8 @@
   }
 
   // Eliminar
-  function askDelete(id: string | number) {
-    idToDelete = id;
+  function askDelete(id: string | number | null | undefined) {
+    idToDelete = id ?? null;
     showModal = true;
   }
 
@@ -242,7 +242,7 @@
               </span>
             </td>
             <td class="observaciones">{it.observaciones || '-'}</td>
-            <td>{new Date(it.fechaCreacion).toLocaleString()}</td>
+            <td>{new Date(it.fechaRegistro).toLocaleString()}</td>
             <td>{it.fechaModificacion ? new Date(it.fechaModificacion).toLocaleString() : '-'}</td>
             <td class="acciones">
               <button onclick={() => startEdit(it)} class="btn btn-success btn-sm">
