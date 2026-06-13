@@ -1,3 +1,9 @@
+# TODOS
+
+- Organizar Modelos, componentes, Rutas, Servicios (APIS), Stores, Static
+- Unificar Estilos
+- Hacer barra lateral de rutas en vez de menu principal
+
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
 ## Creating a project
