@@ -2,7 +2,7 @@
 
 * Unificar estilos 
 * Hacer Tests 
-* Collapsible Sidebar
+* Collapsible Sidebar en vez de menu principal
 * Arreglar Components && Routes && Services && Stores && Models
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
