@@ -1,2 +1,3 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<h1>Error al cargar el inicio de sesión</h1>
+<p>Si está viendo esto, comuniquese con el administrador del sistema</p>
+

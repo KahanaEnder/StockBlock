@@ -37,14 +37,6 @@
 
 <main class="login-container">
   <div class="login-bg">
-    <div class="floating-shape shape-1"></div>
-    <div class="floating-shape shape-2"></div>
-    <div class="floating-shape shape-3"></div>
-    <div class="particles">
-      {#each Array(10) as _, i}
-        <span class="particle" style="--delay: {i}s"></span>
-      {/each}
-    </div>
   </div>
 
   <div class="login-card">
@@ -59,7 +51,7 @@
     <form onsubmit={(e) => { e.preventDefault(); handleLogin(); }}>
       {#if error}
         <div class="error-message">
-          <span>⚠️ {error}</span>
+          <span> {error}</span>
         </div>
       {/if}
 
@@ -122,58 +114,6 @@
     height: 100%;
     z-index: 1;
     overflow: hidden;
-  }
-
-  .floating-shape {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-    opacity: 0.4;
-    animation: float 25s infinite ease-in-out;
-  }
-
-  .shape-1 {
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(118, 169, 250, 0.4) 0%, transparent 70%);
-    top: -200px;
-    left: -200px;
-    animation-delay: 0s;
-  }
-
-  .shape-2 {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(79, 131, 247, 0.3) 0%, transparent 70%);
-    top: 50%;
-    right: -150px;
-    animation-delay: 7s;
-  }
-
-  .shape-3 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(118, 169, 250, 0.35) 0%, transparent 70%);
-    bottom: -100px;
-    left: 20%;
-    animation-delay: 14s;
-  }
-
-  .particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-  .particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: rgba(202, 204, 227, 0.6);
-    border-radius: 50%;
-    opacity: 0;
-    animation: particle-rise 10s infinite ease-out;
-    animation-delay: var(--delay, 0s);
   }
 
   @keyframes float {
@@ -378,8 +318,8 @@
     }
 
     .logo-big {
-      width: 100px;
-      height: 100px;
+      width: 150px;
+      height: 150px;
     }
   }
 </style>
