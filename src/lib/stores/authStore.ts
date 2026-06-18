@@ -1,13 +1,6 @@
 import { writable } from 'svelte/store';
 import { login as firebaseLogin, logout as firebaseLogout, onAuthChange } from '$lib/services/auth';
-import type { User } from 'firebase/auth';
-
-interface AuthState {
-	isLoggedIn: boolean;
-	user: string | null;
-	uid: string | null;
-	loading: boolean;
-}
+import type { AuthState } from 'src/app';
 
 function createAuthStore() {
 	const { subscribe, set, update } = writable<AuthState>({

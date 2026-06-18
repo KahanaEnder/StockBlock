@@ -54,15 +54,16 @@
 
         
             <div class="cta-buttons">
-                <button onclick={() => goto('/stock')} class="cta-primary">Productos HU04</button>
-                <button onclick={() => goto('/produccion')} class="cta-primary">Produccion Diaria HU05</button>
-                <button onclick={() => goto('/defectos')} class="cta-primary">Defectos HU02</button>
-                <button onclick={() => goto('/reportes')} class="cta-primary">Reportes HU06</button>
-                <button onclick={() => goto('/mantenimiento')} class="cta-primary">Mantenimientos HU03</button>
-                <button onclick={() => goto('/diagramas')} class="cta-primary">Diagramas HU09</button>
-                <button onclick={() => goto('/pedidos')} class="cta-primary">Notificar pedidos HU08</button>
-                <button onclick={() => goto('/entregas')} class="cta-primary">Entregas HU01</button>
-                <button onclick={() => goto('/ausentismo')} class="cta-primary">Ausentismo HU10</button>
+                <button onclick={() => goto('/stock')} class="cta-primary">Productos</button>
+                <button onclick={() => goto('/produccion')} class="cta-primary">Produccion Diaria</button>
+                <button onclick={() => goto('/defectos')} class="cta-primary">Defectos</button>
+                <button onclick={() => goto('/reportes')} class="cta-primary">Reportes</button>
+                <button onclick={() => goto('/mantenimiento')} class="cta-primary">Mantenimientos</button>
+                <button onclick={() => goto('/diagramas')} class="cta-primary">Diagramas</button>
+                <button onclick={() => goto('/pedidos')} class="cta-primary">Notificar pedidos</button>
+                <button onclick={() => goto('/entregas')} class="cta-primary">Entregas</button>
+                <button onclick={() => goto('/ausentismo')} class="cta-primary">Ausentismo</button>
+                <button onclick={() => goto('/lotes')} class="cta-primary">Lotes</button>
             </div>
             
         

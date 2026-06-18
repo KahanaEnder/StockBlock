@@ -3,31 +3,29 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { authStore } from '$lib/stores/authStore';
-	import { onMount } from 'svelte';
 
 	let { children } = $props();
-	let isLoggedIn = $state(false);
-	let isLoading = $state(true);
+	let authState = $state({ isLoggedIn: false, loading: true });
 	let canRender = $state(false);
+	let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
 
 	const publicRoutes = ['/login'];
 
-	onMount(() => {
-		// Si Firebase no responde en 5 segundos, mostrar la app de todas formas
-		const fallbackTimer = setTimeout(() => {
+	// Efecto para suscribirse al store y manejar autenticación
+	$effect(() => {
+		// Configurar fallback timer
+		fallbackTimer = setTimeout(() => {
 			if (!canRender) {
 				console.warn('[Layout] Firebase no respondió a tiempo. Mostrando app sin auth.');
-				isLoading = false;
-				canRender = true;
+				authState = { ...authState, loading: false };
 			}
 		}, 5000);
 
 		const unsubscribe = authStore.subscribe(state => {
-			isLoggedIn = state.isLoggedIn;
-			isLoading = state.loading;
+			authState = state;
 
 			if (!state.loading) {
-				clearTimeout(fallbackTimer);
+				if (fallbackTimer) clearTimeout(fallbackTimer);
 				const currentPath = page.url.pathname;
 				const isPublicRoute = publicRoutes.some(route => currentPath.startsWith(route));
 
@@ -41,18 +39,19 @@
 		});
 
 		return () => {
-			clearTimeout(fallbackTimer);
+			if (fallbackTimer) clearTimeout(fallbackTimer);
 			unsubscribe();
 		};
 	});
 
+	// Efecto para validar ruta cuando cambia
 	$effect(() => {
-		if (isLoading) return;
+		if (authState.loading) return;
 
 		const currentPath = page.url.pathname;
 		const isPublicRoute = publicRoutes.some(route => currentPath.startsWith(route));
 
-		if (isLoggedIn || isPublicRoute) {
+		if (authState.isLoggedIn || isPublicRoute) {
 			canRender = true;
 		} else {
 			canRender = false;
@@ -65,7 +64,7 @@
 	<link rel="icon" href="/images/icon_mecamblock.png" />
 </svelte:head>
 
-{#if isLoading}
+{#if authState.loading}
 	<div class="dark-page flex items-center justify-center h-screen">
 		<div class="text-white text-xl">Cargando...</div>
 	</div>

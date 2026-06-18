@@ -1,1 +1,1 @@
-export const ssr = false; //Server side rendering false
+export const ssr = true; //Server side rendering true
