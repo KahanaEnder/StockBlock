@@ -14,9 +14,6 @@
         <button class="btn-primary-dark" onclick={() => goto('/login')}>
           Ir al Login
         </button>
-        <button class="btn-outline-dark" onclick={() => goto('/ruta_main')}>
-          Volver al Inicio
-        </button>
       </div>
     </div>
   </div>
@@ -73,23 +70,6 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-  }
-
-  .btn-outline-dark {
-    padding: 0.8rem 1.5rem;
-    border-radius: 1rem;
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-    background: transparent;
-    color: white;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .btn-outline-dark:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.5);
   }
 
   @keyframes slideInUp {
