@@ -36,9 +36,6 @@
 </script>
 
 <main class="login-container">
-  <div class="login-bg">
-  </div>
-
   <div class="login-card">
     <div class="login-header">
       <div class="logo-big">
@@ -105,17 +102,6 @@
     overflow: hidden;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   }
-
-  .login-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    overflow: hidden;
-  }
-
   @keyframes float {
     0%, 100% {
       transform: translate(0, 0) scale(1);
@@ -169,8 +155,8 @@
   }
 
   .logo-big {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     margin: 0 auto 1.5rem;
     display: flex;
     align-items: center;
