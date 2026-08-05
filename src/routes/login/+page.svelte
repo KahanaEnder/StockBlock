@@ -253,39 +253,7 @@
   }
 
   @media (max-width: 600px) {
-@keyframes float {
-    0%, 100% {
-      transform: translate(0, 0) scale(1);
-    }
-    25% {
-      transform: translate(100px, -80px) scale(1.1);
-    }
-    50% {
-      transform: translate(-60px, 60px) scale(0.9);
-    }
-    75% {
-      transform: translate(80px, 100px) scale(1.05);
-    }
-  }
-
-  @keyframes particle-rise {
-    0% {
-      opacity: 0;
-      transform: translateY(100vh) scale(0);
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-100px) scale(1);
-    }
-  }
-
-  .login-card {
+    .login-card {
       max-width: 95vw;
       padding: 2rem 1.5rem;
     }
