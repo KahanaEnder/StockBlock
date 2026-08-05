@@ -1,6 +1,7 @@
 <script lang="ts">
-  import {Errors} from '$lib/constants/errors' //Constante para evitar hardcodear
-  import {Routes} from '$lib/constants/routes' //Rutas de GOTOS
+  import {Errors} from '$lib/constants/errors'; //Constante para evitar hardcodear
+  import {Routes} from '$lib/constants/routes'; //Rutas de GOTOS
+  import {PlaceHolders} from '$lib/constants/placeholders';
   import { goto } from '$app/navigation';
   import { authStore } from '$lib/stores/authStore';
 
@@ -41,25 +42,25 @@
   <div class="login-card">
     <div class="login-header">
       <div class="logo-big">
-        <img src="/images/mecamblocklogo.jpg" alt="MecamBlock" />
+        <img src={PlaceHolders.LOGO} alt={PlaceHolders.MECAMBLOCK}/>
       </div>
-      <h1>MecamBlock</h1>
-      <p>Administrador</p>
+      <h1>{PlaceHolders.MECAMBLOCK}</h1>
+      <p>{PlaceHolders.ADMIN}</p>
     </div>
 
     <form onsubmit={(e) => { e.preventDefault(); handleLogin(); }}>
       {#if error}
         <div class="error-message">
-          <span> {error}</span>
+          <span>{error}</span>
         </div>
       {/if}
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{PlaceHolders.EMAIL}</label>
         <input
           id="email"
           type="email"
-          placeholder="Ingresa tu email"
+          placeholder={PlaceHolders.ENTER_EMAIL}
           bind:value={email}
           onkeypress={handleKeyPress}
           disabled={isLoading}
@@ -68,11 +69,11 @@
       </div>
 
       <div class="form-group">
-        <label for="password">Contraseña</label>
+        <label for="password">{PlaceHolders.PASSWORD}</label>
         <input
           id="password"
           type="password"
-          placeholder="Ingresa tu contraseña"
+          placeholder={PlaceHolders.ENTER_PASSWORD}
           bind:value={password}
           onkeypress={handleKeyPress}
           disabled={isLoading}
@@ -81,7 +82,7 @@
       </div>
 
       <button type="submit" disabled={isLoading} class="btn-login">
-        {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+        {isLoading ? PlaceHolders.LOGIN_SUCCESS : PlaceHolders.LOGIN}
       </button>
     </form>
   </div>
@@ -116,7 +117,7 @@
     width: 100%;
     max-width: 420px;
     box-shadow: 0 8px 32px rgba(31, 38, 135, 0.3);
-    animation: slideInUp 0.8s ease-out;
+    animation: slideInUp 1.0s ease-out;
   }
 
   .login-header {
@@ -151,7 +152,7 @@
 
   .login-header p {
     font-size: 1.1rem;
-    color: #76a9fa;
+    color: var(--text-primary);
     margin: 0.5rem 0 0 0;
     font-weight: 600;
   }
