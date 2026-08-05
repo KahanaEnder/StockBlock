@@ -1,4 +1,5 @@
 <script lang="ts">
+  import {Errors} from '$lib/constants/errors' //Constante para evitar hardcodear
   import { goto } from '$app/navigation';
   import { authStore } from '$lib/stores/authStore';
 
@@ -11,8 +12,8 @@
     error = '';
     isLoading = true;
 
-    if (!email.trim() || !password.trim()) {
-      error = 'Email y contraseña son requeridos';
+    if (!email.trim() || !password.trim()) { //Verifica campos vacios
+      error = Errors.LOGIN_REQUIRED;
       isLoading = false;
       return;
     }
@@ -22,7 +23,7 @@
     if (success) {
       goto('/ruta_main');
     } else {
-      error = 'Email o contraseña incorrectos';
+      error = Errors.LOGIN_INVALID;
     }
 
     isLoading = false;
