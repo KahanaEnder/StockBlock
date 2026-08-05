@@ -1,5 +1,6 @@
 <script lang="ts">
   import {Errors} from '$lib/constants/errors' //Constante para evitar hardcodear
+  import {Routes} from '$lib/constants/routes' //Rutas de GOTOS
   import { goto } from '$app/navigation';
   import { authStore } from '$lib/stores/authStore';
 
@@ -21,7 +22,7 @@
     const success = await authStore.login(email, password);
 
     if (success) {
-      goto('/ruta_main');
+      goto(Routes.MAIN);
     } else {
       error = Errors.LOGIN_INVALID;
     }
