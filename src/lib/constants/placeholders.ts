@@ -8,5 +8,7 @@ export const PlaceHolders = {
     ENTER_PASSWORD: 'Ingresa tu contraseña',
     LOGIN: 'Iniciar Sesión',
     LOGIN_SUCCESS: 'Iniciando Sesión...',
+    ACCESS_D: 'Acceso Denegado',
+    PH: 'No tienes permiso para acceder a esta página o la sesión expiró.',
 } as const;
 export type PlaceHolderKey = keyof typeof PlaceHolders;
