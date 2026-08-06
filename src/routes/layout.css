@@ -9,32 +9,32 @@
 }
 
 :root {
-  --glow-intensity: 0.7;
-  --accent-blue: #006EFF;
-  --accent-blue-dark: #0031FF;
+  --glow-intensity: 1;
+  --accent-blue: #1673AB;
+  --accent-blue-dark: #2E6E93;
   --accent-glow: radial-gradient(
     farthest-corner at bottom center,
     rgba(0,49,255, var(--glow-intensity)),
     transparent
-  ); /*Usa accent-blue dark pero en rgb no hex */
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
+  );
+  --glass-bg: rgba(255, 255, 255, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.4);
   --glass-blur: 12px;
   --text-primary: #ffffff;
-  --text-secondary: rgb(0,0,0);
-  --text-tertiary: var(--accent-blue);
-  --bg-gradient: linear-gradient(135deg, var(--accent-blue-dark) 0%, var(--accent-blue) 500%, #ffffff 140%);
+  --text-secondary: #000000;
+  --text-tertiary: var(--accent-blue-dark);
+  --background: linear-gradient(135deg, var(--accent-blue) 50%, rgba(0,0,255,0.9) 100%);
 }
 
 @layer components {
-  /* === Dark page background === */
+  /*  Dark page background  */
   .dark-page {
-    background: var(--bg-gradient);
+    background: var(--background);
     background-attachment: fixed;
     min-height: 100vh;
   }
 
-  /* === Page title === */
+  /*  Page title  */
   .page-title {
     font-size: 2.5rem;
     font-weight: 800;
@@ -46,7 +46,7 @@
     text-align: center;
   }
 
-  /* === Dark section base === */
+  /* Dark section base  */
   .dark-section {
     min-height: 100vh;
     display: flex;
@@ -58,18 +58,21 @@
     width: 100%;
   }
 
-  /* === Glass card === */
+  /* Glass card */
   .card-glass {
     background: var(--glass-bg);
-    border-radius: 1.5rem;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.18);
-    padding: 2.5rem 2rem;
+    border-radius: 2rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 3rem 2rem;
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
+    animation: slideInUp 1.0s ease-out;
   }
 
-  /* === Glass nav === */
+  /*  Glass nav  */
   .glass-nav {
     background: rgba(15, 25, 35, 0.8);
     backdrop-filter: blur(20px);
@@ -77,7 +80,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  /* === Glass footer === */
+  /*  Glass footer  */
   .glass-footer {
     background: linear-gradient(135deg, rgba(15, 25, 35, 0.95) 0%, rgba(10, 15, 25, 0.95) 100%);
     backdrop-filter: blur(20px);
@@ -85,7 +88,20 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  /* === Buttons (dark theme) === */
+  .error-message {
+    background: rgba(255,0,0,0.5);
+    border: 3px solid #ff4d4f;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: center;
+    font-size: 1rem;
+    animation: shake 0.8s ease-in-out;
+  }
+
+
+  /* Buttons (dark theme)  */
   .btn {
     @apply px-4 py-2 rounded-lg font-semibold cursor-pointer transition-all duration-200 inline-flex items-center justify-center gap-2 border-none;
   }
@@ -117,11 +133,12 @@
   }
   .btn-outline-light {
     background: transparent;
-    color: #fff;
-    border: 1.5px solid #fff;
+    color: var(--text-primary);
+    border: 3px solid var(--glass-border);
+    border-radius: 1rem;
   }
   .btn-outline-light:hover {
-    background: #fff;
+    background: var(--text-primary);
     color: var(--accent-blue-dark);
   }
   .btn-sm {
@@ -135,7 +152,7 @@
     @apply bg-transparent border-none text-gray-500 text-xl cursor-pointer hover:text-gray-700;
   }
 
-  /* === Card (light theme) === */
+  /*  Card (light theme)  */
   .card {
     @apply bg-white rounded-lg shadow-md p-6;
   }
@@ -143,22 +160,22 @@
     @apply border-b pb-3 mb-4;
   }
 
-  /* === Form group === */
+  /*  Form group  */
   .form-group {
     @apply flex flex-col gap-1.5;
   }
 
-  /* === Container === */
+  /*  Container  */
   .container {
     @apply max-w-5xl mx-auto p-5;
   }
 
-  /* === Table responsive === */
+  /*  Table responsive */
   .table-responsive {
     @apply overflow-x-auto;
   }
 
-  /* === Dark table === */
+  /* Dark table */
   .styled-table-dark {
     width: 100%;
     border-collapse: separate;
@@ -187,7 +204,7 @@
     border-bottom: none;
   }
 
-  /* === Modal === */
+  /*  Modal  */
   .modal {
     @apply fixed inset-0 z-50 flex items-center justify-center;
   }
@@ -213,7 +230,7 @@
     @apply flex justify-end gap-2 p-4 border-t;
   }
 
-  /* === Volver button === */
+  /*  Volver button  */
   .volver-container {
     display: flex;
     flex-direction: column;
@@ -232,7 +249,7 @@
     box-shadow: 0 2px 12px #0002;
   }
 
-  /* === Metric badges === */
+  /*  Metric badges  */
   .metric-badge {
     background: rgba(118, 169, 250, 0.15);
     color: var(--accent-blue);
@@ -243,7 +260,7 @@
     border: 1px solid rgba(118, 169, 250, 0.3);
   }
 
-  /* === Utility === */
+  /*  Utility  */
   .d-block {
     @apply block;
   }
@@ -270,7 +287,13 @@
   }
 }
 
-/* === Animations === */
+/* Animations */
+@keyframes shake {
+    0%, 100% {transform: translateX(0);}
+    25% {transform: translateX(-5px);}
+    75% {transform: translateX(5px);}
+}
+
 @keyframes float {
   0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
   25% { transform: translate(100px, -80px) scale(1.1) rotate(90deg); }

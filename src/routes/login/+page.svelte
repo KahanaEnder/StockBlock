@@ -1,7 +1,7 @@
 <script lang="ts">
   import {Errors} from '$lib/constants/errors'; //Constante para evitar hardcodear
   import {Routes} from '$lib/constants/routes'; //Rutas de GOTOS
-  import {PlaceHolders} from '$lib/constants/placeholders';
+  import {PlaceHolders} from '$lib/constants/placeholders'; //Textos
   import { goto } from '$app/navigation';
   import { authStore } from '$lib/stores/authStore';
 
@@ -39,7 +39,7 @@
 </script>
 
 <main class="login-container">
-  <div class="login-card">
+  <div class="card-glass">
     <div class="login-header">
       <div class="logo-big">
         <img src={PlaceHolders.LOGO} alt={PlaceHolders.MECAMBLOCK}/>
@@ -81,7 +81,7 @@
         />
       </div>
 
-      <button type="submit" disabled={isLoading} class="btn-login">
+      <button type="submit" disabled={isLoading} class="btn btn-outline-light btn-lg">
         {isLoading ? PlaceHolders.LOGIN_SUCCESS : PlaceHolders.LOGIN}
       </button>
     </form>
@@ -97,7 +97,7 @@
   .login-container {
     width: 100%;
     height: 100vh;
-    background: var(--bg-gradient);
+    background: var(--background);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,30 +105,15 @@
     overflow: hidden;
   }
 
-  .login-card {
-    position: relative;
-    z-index: 10;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 2rem;
-    padding: 3rem 2rem;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.3);
-    animation: slideInUp 1.0s ease-out;
-  }
-
   .login-header {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
 
   .logo-big {
     width: 150px;
     height: 150px;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -139,122 +124,71 @@
     height: 100%;
     object-fit: cover;
     border-radius: 1rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   }
 
   .login-header h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--text-primary);
     margin: 0;
     letter-spacing: -1px;
   }
 
   .login-header p {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--text-primary);
-    margin: 0.5rem 0 0 0;
+    margin: 1rem 0 0 0;
     font-weight: 600;
   }
 
   form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .error-message {
-    background: rgba(255, 77, 79, 0.15);
-    border: 1px solid #ff4d4f;
-    border-radius: 1rem;
-    padding: 0.9rem 1.2rem;
-    color: #ff4d4f;
-    font-weight: 600;
-    text-align: center;
-    font-size: 1rem;
-    animation: shake 0.5s ease-in-out;
-  }
-
-  @keyframes shake {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-5px);
-    }
-    75% {
-      transform: translateX(5px);
-    }
+    gap: 2rem;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 1rem;
   }
 
   .form-group label {
-    color: #76a9fa;
+    color: var(--text-primary);
     font-weight: 700;
     font-size: 1rem;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
   }
 
   .input {
     width: 100%;
-    padding: 1rem 1.2rem;
+    padding: 1rem 2rem;
     border-radius: 1rem;
-    border: 1px solid #4f83f7;
+    border: 3px solid var(--glass-border);
     background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
-    font-size: 1.05rem;
-    outline: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
     transition: all 0.3s ease;
   }
 
   .input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-primary);
   }
 
   .input:focus {
-    border-color: #76a9fa;
-    background: rgba(255, 255, 255, 0.16);
-    box-shadow: 0 0 0 3px rgba(118, 169, 250, 0.1);
+    border-color: var(--accent-glow);
+    background: var(--glass-border);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
   }
 
   .input:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
   }
-
-  .btn-login {
-    padding: 1rem 1.5rem;
-    border-radius: 1.2rem;
-    background: linear-gradient(135deg, #76a9fa 0%, #4f83f7 100%);
-    color: #ffffff;
-    font-size: 1.1rem;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 20px rgba(118, 169, 250, 0.3);
-    margin-top: 0.5rem;
-  }
-
-  .btn-login:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 28px rgba(118, 169, 250, 0.4);
-    background: linear-gradient(135deg, #4f83f7 0%, #76a9fa 100%);
-  }
-
-  .btn-login:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-
-  @media (max-width: 600px) {
-    .login-card {
+  /* Si la ventana mide menos de 600px se reduce el padding y se amplia el width */
+  @media (max-width: 600px) { 
+    .card-glass {
       max-width: 95vw;
       padding: 2rem 1.5rem;
     }

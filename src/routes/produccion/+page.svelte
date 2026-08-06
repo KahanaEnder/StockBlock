@@ -4,6 +4,7 @@
     import { stockStore } from '$lib/stores/stockStore';
     import { produccionStore } from '$lib/stores/produccionStore';
     import { goto } from '$app/navigation';
+    import {Routes} from '$lib/constants/routes'
 
     // --- ESTADO ---
     let produccion: ProductionRecord[] = [];
@@ -219,7 +220,7 @@
         </div>
 
         <div class="volver-container">
-            <button class="btn btn-outline-light btn-lg volver-btn" onclick={() => goto('/ruta_main')}>
+            <button class="btn btn-outline-light btn-lg volver-btn" onclick={() => goto(Routes.MAIN)}>
                 Volver al menú principal
             </button>
         </div>
