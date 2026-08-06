@@ -49,11 +49,9 @@
     </div>
 
     <form onsubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-      {#if error}
-        <div class="error-message">
-          <span>{error}</span>
-        </div>
-      {/if}
+      <div class="error-message" class:shake={!!error} style:visibility={error ? 'visible' : 'hidden'}>
+        <span>{error || '\u00A0'}</span>
+      </div>
 
       <div class="form-group">
         <label for="email">{PlaceHolders.EMAIL}</label>
