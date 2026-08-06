@@ -2,6 +2,7 @@
     import { StockItem } from '$lib/models/stock';
     import { stockStore } from '$lib/stores/stockStore';
     import { goto } from '$app/navigation';
+    import { Routes } from '$lib/constants/routes';
 
     // --- ESTADO PRINCIPAL ---
     let inventario: StockItem[] = [];
@@ -230,7 +231,7 @@
         </div>
 
         <div class="volver-container">
-            <button class="btn btn-outline-light btn-lg volver-btn" onclick={() => goto('/ruta_main')}>
+            <button class="btn btn-outline-light btn-lg volver-btn" onclick={() => goto(Routes.MAIN)}>
                 Volver al menú principal
             </button>
         </div>

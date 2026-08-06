@@ -3,6 +3,7 @@
   import SearchFilter from '$lib/components/SearchFilter.svelte';
   import { ausentismoStore, type Ausentismo } from '$lib/stores/ausentismoStore';
   import { goto } from '$app/navigation';
+  import { Routes } from '$lib/constants/routes';
 
   // Estado del formulario
   let operario = $state('');
@@ -279,7 +280,7 @@
     <button
       type="button"
       class="btn btn-outline-light btn-lg volver-btn"
-      onclick={() => goto('/ruta_main')}
+      onclick={() => goto(Routes.MAIN)}
     >
       Volver al menú principal
     </button>

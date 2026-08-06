@@ -3,6 +3,7 @@
     import { mantenimientoStore } from '$lib/stores/mantenimientoStore';
     import type { Mantenimiento } from '$lib/models/mantenimiento';
     import { goto } from '$app/navigation';
+    import { Routes } from '$lib/constants/routes';
 
     // --- INTERFACES ---
     interface Errors {
@@ -301,7 +302,7 @@
 </div>
 
 <div class="footer-actions">
-    <button type="button" class="btn-back btn-lg" onclick={() => goto('/ruta_main')}>
+    <button type="button" class="btn-back btn-lg" onclick={() => goto(Routes.MAIN)}>
         Volver al menú principal
     </button>
 </div>

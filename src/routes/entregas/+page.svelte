@@ -8,6 +8,7 @@
   import Signature from '$lib/components/Signature.svelte'; 
 
   import { goto } from '$app/navigation';
+  import { Routes } from '$lib/constants/routes';
 
   // Form state
   let cliente = '';
@@ -277,7 +278,7 @@
     gap: 1rem;">
 
   <button type="button" class="btn btn-secondary btn-lg"
-  on:click = {() => goto('/ruta_main')}
+  on:click = {() => goto(Routes.MAIN)}
   >
     Volver al menú principal
   </button>

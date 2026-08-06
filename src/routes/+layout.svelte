@@ -9,54 +9,34 @@
 	let { children } = $props();
 	let authState = $state({ isLoggedIn: false, loading: true });
 	let canRender = $state(false);
-	let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
 
-	const publicRoutes = [Routes.LOGIN];
+	const publicRoutes: string[] = [Routes.LOGIN];
 
-	// Efecto para suscribirse al store y manejar autenticación
+	// Suscribirse al store de autenticación
 	$effect(() => {
-		// Configurar fallback timer
-		fallbackTimer = setTimeout(() => {
-			if (!canRender) {
-				console.warn(PlaceHolders.NOAUTH);
-				authState = { ...authState, loading: false };
-			}
-		}, 5000);
-
 		const unsubscribe = authStore.subscribe(state => {
 			authState = state;
-
-			if (!state.loading) {
-				if (fallbackTimer) clearTimeout(fallbackTimer);
-				const currentPath = page.url.pathname;
-				const isPublicRoute = publicRoutes.some(route => currentPath.startsWith(route));
-
-				if (state.isLoggedIn || isPublicRoute) {
-					canRender = true;
-				} else {
-					canRender = false;
-					goto(Routes.LOGIN, { replaceState: true });
-				}
-			}
 		});
 
-		return () => {
-			if (fallbackTimer) clearTimeout(fallbackTimer);
-			unsubscribe();
-		};
+		return () => unsubscribe();
 	});
 
-	// Efecto para validar ruta cuando cambia
+	// Guard reactivo: decide qué renderizar según auth y ruta
 	$effect(() => {
 		if (authState.loading) return;
 
-		const currentPath = page.url.pathname;
-		const isPublicRoute = publicRoutes.some(route => currentPath.startsWith(route));
+		const path = page.url.pathname;
 
-		if (authState.isLoggedIn || isPublicRoute) {
-			canRender = true;
-		} else {
+		if (path === '/') {
+			goto(authState.isLoggedIn ? Routes.MAIN : Routes.LOGIN, { replaceState: true });
 			canRender = false;
+			return;
+		}
+
+		const isPublicRoute = publicRoutes.includes(path);
+		canRender = authState.isLoggedIn || isPublicRoute;
+
+		if (!canRender) {
 			goto(Routes.LOGIN, { replaceState: true });
 		}
 	});

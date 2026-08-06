@@ -1,6 +1,7 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
+  import { Routes } from '$lib/constants/routes';
   import { stockStore } from '$lib/stores/stockStore';
   import { StockItem } from '$lib/models/stock';
   
@@ -144,7 +145,7 @@
     </form>
 
     <div class="footer-actions">
-      <button type="button" class="btn-back btn-lg" onclick={() => goto('/ruta_main')}>
+      <button type="button" class="btn-back btn-lg" onclick={() => goto(Routes.MAIN)}>
           Volver al menú principal
       </button>
     </div>

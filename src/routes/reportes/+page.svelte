@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { Routes } from '$lib/constants/routes';
 
   // Tipos
   interface MetricasMensuales {
@@ -339,7 +340,7 @@
   </div>
 
   <div class="volver-container">
-    <button type="button" class="btn btn-outline-light btn-lg volver-btn" onclick={() => goto('/ruta_main')}>
+    <button type="button" class="btn btn-outline-light btn-lg volver-btn" onclick={() => goto(Routes.MAIN)}>
       Volver al menú principal
     </button>
   </div>
