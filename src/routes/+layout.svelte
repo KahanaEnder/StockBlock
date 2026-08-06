@@ -3,20 +3,22 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { authStore } from '$lib/stores/authStore';
-
+	import {Routes} from '$lib/constants/routes';
+	import {PlaceHolders} from '$lib/constants/placeholders'
+ 
 	let { children } = $props();
 	let authState = $state({ isLoggedIn: false, loading: true });
 	let canRender = $state(false);
 	let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
 
-	const publicRoutes = ['/login'];
+	const publicRoutes = [Routes.LOGIN];
 
 	// Efecto para suscribirse al store y manejar autenticación
 	$effect(() => {
 		// Configurar fallback timer
 		fallbackTimer = setTimeout(() => {
 			if (!canRender) {
-				console.warn('[Layout] Firebase no respondió a tiempo. Mostrando app sin auth.');
+				console.warn(PlaceHolders.NOAUTH);
 				authState = { ...authState, loading: false };
 			}
 		}, 5000);
@@ -33,7 +35,7 @@
 					canRender = true;
 				} else {
 					canRender = false;
-					goto('/login', { replaceState: true });
+					goto(Routes.LOGIN, { replaceState: true });
 				}
 			}
 		});
@@ -55,18 +57,18 @@
 			canRender = true;
 		} else {
 			canRender = false;
-			goto('/login', { replaceState: true });
+			goto(Routes.LOGIN, { replaceState: true });
 		}
 	});
 </script>
 
 <svelte:head>
-	<link rel="icon" href="/images/icon_mecamblock.png" />
+	<link rel="icon" href={PlaceHolders.ICON}/>
 </svelte:head>
 
 {#if authState.loading}
 	<div class="dark-page flex items-center justify-center h-screen">
-		<div class="text-white text-xl">Cargando...</div>
+		<div class="text-white text-xl">{PlaceHolders.LOADING}</div>
 	</div>
 {:else if canRender}
 	{@render children()}
