@@ -175,7 +175,7 @@
   }
 
   .input:focus {
-    border-color: var(--accent-glow);
+    border-color: var(--glass-border);
     background: var(--glass-border);
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
   }
