@@ -141,12 +141,12 @@
 
 </script>
 
-<div class="maintenance-container">
+<div class="maintenance-container dark-section">
 
-    <h1 style="text-align: center; margin-top: 2rem;">Gestión de Mantenimiento</h1>
+    <h1 class="page-title">Gestión de Mantenimiento</h1>
 
     {#if successMessage}
-        <div class="success-message">
+        <div class="msg msg-success">
             {successMessage}
         </div>
     {/if}
@@ -162,10 +162,11 @@
         
         <form onsubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group-dark">
                     <label for="fecha">Fecha de Intervención *</label>
                     <input
                         id="fecha"
+                        class="input-dark"
                         type="date"
                         bind:value={formData.fecha}
                         class:error={errors.fecha}
@@ -173,9 +174,9 @@
                     {#if errors.fecha}<span class="error-text">{errors.fecha}</span>{/if}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group-dark">
                     <label for="maquina">Máquina *</label>
-                    <select id="maquina" bind:value={formData.maquina} class:error={errors.maquina}>
+                    <select id="maquina" class="input-dark" bind:value={formData.maquina} class:error={errors.maquina}>
                         <option value="">-- Seleccionar máquina --</option>
                         {#each maquinas as maq}
                             <option value={maq}>{maq}</option>
@@ -184,9 +185,9 @@
                     {#if errors.maquina}<span class="error-text">{errors.maquina}</span>{/if}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group-dark">
                     <label for="tecnico">Técnico Responsable *</label>
-                    <select id="tecnico" bind:value={formData.tecnico} class:error={errors.tecnico}>
+                    <select id="tecnico" class="input-dark" bind:value={formData.tecnico} class:error={errors.tecnico}>
                         <option value="">-- Seleccionar técnico --</option>
                         {#each tecnicos as tech}
                             <option value={tech}>{tech}</option>
@@ -197,10 +198,11 @@
             </div>
 
             <div class="form-row">
-                <div class="form-group full-width">
+                <div class="form-group-dark full-width">
                     <label for="observaciones">Observaciones *</label>
                     <textarea
                         id="observaciones"
+                        class="input-dark"
                         bind:value={formData.observaciones}
                         placeholder="Describa el estado de la máquina y acciones realizadas"
                         rows="4"
@@ -211,10 +213,11 @@
             </div>
 
             <div class="form-row">
-                <div class="form-group full-width">
+                <div class="form-group-dark full-width">
                     <label for="repuestos">Repuestos Utilizados</label>
                     <input
                         id="repuestos"
+                        class="input-dark"
                         type="text"
                         bind:value={formData.repuestos}
                         placeholder="Ej: Rodamientos, correas, aceite ISO 46 (opcional)"
@@ -222,13 +225,13 @@
                 </div>
             </div>
 
-            <div class="button-group">
+            <div class="form-actions">
                 <button type="submit" class="btn-primary" class:btn-warning={editingId !== null}>
                     {editingId !== null ? 'Actualizar Registro' : 'Guardar Registro'}
                 </button>
                 
                 {#if editingId !== null}
-                    <button type="button" class="btn-secondary" onclick={cancelarEdicion}>
+                    <button type="button" class="btn-cancel-dark" onclick={cancelarEdicion}>
                         Cancelar
                     </button>
                 {/if}
@@ -241,12 +244,12 @@
         <h2>Historial de Intervenciones ({historial.length})</h2>
 
         {#if historial.length === 0}
-            <div class="empty-state">
+            <div class="empty">
                 <p>No hay registros de mantenimiento. ¡Crea uno nuevo!</p>
             </div>
         {:else}
             <div class="table-responsive">
-                <table class="history-table">
+                <table class="styled-table-dark history-table">
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -292,127 +295,105 @@
             <!-- PAGINACIÓN -->
             {#if totalPages > 1}
                 <div class="pagination">
-                    <button onclick={prevPage} disabled={currentPage === 1} class="btn-nav">← Anterior</button>
+                    <button onclick={prevPage} disabled={currentPage === 1} class="btn btn-nav">← Anterior</button>
                     <span class="page-info">Página {currentPage} de {totalPages}</span>
-                    <button onclick={nextPage} disabled={currentPage === totalPages} class="btn-nav">Siguiente →</button>
+                    <button onclick={nextPage} disabled={currentPage === totalPages} class="btn btn-nav">Siguiente →</button>
                 </div>
             {/if}
         {/if}
     </div>
 </div>
 
-<div class="footer-actions">
-    <button type="button" class="btn-back btn-lg" onclick={() => goto(Routes.MAIN)}>
+<div class="volver-container">
+    <button type="button" class="btn btn-outline-light btn-lg volver-btn" onclick={() => goto(Routes.MAIN)}>
         Volver al menú principal
     </button>
 </div>
 
 <style>
-    /* Estilos generales */
+    /* Estilos oscuros basados en layout.css */
     .maintenance-container {
         max-width: 1200px; margin: 0 auto; padding: 20px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         display: flex; flex-direction: column; gap: 1rem;
     }
 
-    h1 { color: #2c3e50; margin-bottom: 30px; font-size: 28px; }
-    h2 { color: #34495e; margin-bottom: 0; font-size: 20px; }
+    h2 { color: var(--text-primary); margin-bottom: 0; font-size: 1.25rem; }
 
-    /* Mensajes */
-    .success-message {
-        background-color: #d4edda; color: #1195bd; padding: 12px 16px;
-        border-radius: 4px; border-left: 4px solid rgb(39, 169, 189);
-        animation: slideIn 0.3s ease-in;
-    }
-
-    /* Formulario y Modos */
+    /* Formulario */
     .form-section {
-        background: #f8f9fa; padding: 25px; border-radius: 8px;
-        margin-bottom: 30px; border: 1px solid #e0e0e0;
+        width: 100%;
+        max-width: 48rem;
+        background: rgba(255, 255, 255, 0.07);
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.18);
         transition: all 0.3s ease;
     }
-    
+
     /* Estilo especial cuando se edita */
     .editing-mode {
-        background-color: #fffbf0;
-        border-left: 5px solid #f39c12;
-        border-color: #ffe082;
+        border-left: 5px solid #f59e0b;
+        border-color: rgba(245, 158, 11, 0.5);
     }
 
     .form-header {
         display: flex; justify-content: space-between; align-items: center;
-        border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.75rem; margin-bottom: 1.25rem;
     }
-    .editing-mode .form-header { border-bottom-color: #f39c12; }
+    .editing-mode .form-header { border-bottom-color: rgba(245, 158, 11, 0.5); }
 
-    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 15px; }
-    .form-group { display: flex; flex-direction: column; }
-    .form-group.full-width { grid-column: 1 / -1; }
+    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+    .form-group-dark.full-width { grid-column: 1 / -1; width: 100%; }
 
-    label { font-weight: 600; margin-bottom: 6px; color: #2c3e50; font-size: 14px; }
-    input, select, textarea {
-        padding: 10px 12px; border: 1px solid #bdc3c7; border-radius: 4px;
-        font-size: 14px; font-family: inherit;
-    }
-    input:focus, select:focus, textarea:focus {
-        outline: none; border-color: #3498db; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-    }
-    .error { border-color: #e74c3c; background-color: #fadbd8; }
-    .error-text { color: #e74c3c; font-size: 12px; margin-top: 4px; }
+    .error-text { color: #f87171; font-size: 0.8rem; margin-top: 0.25rem; }
+    .error { border-color: #f87171 !important; background: rgba(248, 113, 113, 0.1) !important; }
 
     /* Botones */
-    .button-group { display: flex; gap: 10px; margin-top: 10px; }
-    
-    .btn-primary {
-        background-color: #1c7399; color: white; padding: 12px 30px;
-        border: none; border-radius: 4px; font-weight: 600; cursor: pointer;
-        transition: background 0.2s; flex: 1;
-    }
-    .btn-primary:hover { background-color: #2d9bd6; }
-    
-    .btn-warning { background-color: #f39c12; color: white; }
-    .btn-warning:hover { background-color: #e67e22; }
-
-    .btn-secondary {
-        background-color: #95a5a6; color: white; padding: 12px 20px;
-        border: none; border-radius: 4px; cursor: pointer; font-weight: 600;
-    }
     .btn-cancel-link {
-        background: none; border: none; color: #c0392b; 
-        text-decoration: underline; cursor: pointer; font-size: 14px;
+        background: none; border: none; color: #f87171;
+        text-decoration: underline; cursor: pointer; font-size: 0.9rem;
     }
 
-    /* Tabla */
-    .history-section { background: #ffffff; padding: 25px; border-radius: 8px; border: 1px solid #e0e0e0; }
-    .history-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 15px; }
-    .history-table thead { background-color: #34495e; color: white; }
-    .history-table th, .history-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ecf0f1; }
-    
-    .row-selected { background-color: #fff3cd !important; } /* Resaltar fila editada */
-    
-    .badge { background-color: #3498db; color: white; padding: 4px 8px; border-radius: 3px; font-weight: 600; }
+    .btn-primary {
+        background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+        color: #fff; padding: 0.75rem 1.5rem;
+        border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;
+        transition: all 0.2s; flex: 1;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 16px var(--accent-glow); }
+    .btn-warning { background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%); }
+    .btn-warning:hover { background: linear-gradient(90deg, #d97706 0%, #f59e0b 100%); }
+
+    /* Historial */
+    .history-section {
+        width: 100%;
+        max-width: 1200px;
+        background: rgba(255, 255, 255, 0.06);
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.13);
+    }
+
+    .history-table { font-size: 0.9rem; margin-top: 0.75rem; }
+
+    .badge { background: rgba(118, 169, 250, 0.15); color: var(--accent-blue); border: 1px solid rgba(118, 169, 250, 0.3); padding: 0.2rem 0.5rem; border-radius: 0.4rem; font-weight: 600; }
     .obs-cell { max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .repuestos-cell { max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* Acciones de Tabla */
-    .actions-cell { display: flex; gap: 8px; }
-    .btn-icon { 
-        background: white; border: 1px solid #ddd; cursor: pointer; 
-        padding: 5px 8px; border-radius: 4px; font-size: 16px; transition: 0.2s;
-    }
-    .btn-icon.edit:hover { background-color: #d6eaf8; border-color: #3498db; }
-    .btn-icon.delete:hover { background-color: #fadbd8; border-color: #e74c3c; }
+    .row-selected td { background: rgba(250, 204, 21, 0.08) !important; }
 
     /* Paginación */
-    .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 20px; align-items: center; }
-    .btn-nav { background-color: #3498db; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
-    .btn-nav:disabled { background-color: #bdc3c7; cursor: not-allowed; }
-
-    /* Footer */
-    .footer-actions { display: flex; justify-content: center; padding: 20px; }
-    .btn-back { background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
+    .pagination {
+        display: flex; justify-content: center; gap: 1rem; margin-top: 1.25rem; align-items: center;
+        color: var(--text-primary);
     }
+    .btn-nav {
+        background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+        color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.5rem; cursor: pointer;
+    }
+    .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; }
+    .page-info { font-size: 0.9rem; }
 </style>

@@ -256,45 +256,6 @@
         .form-grid { grid-template-columns: 1fr; }
     }
 
-    .form-group-dark {
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem;
-    }
-    .form-group-dark label {
-        color: var(--accent-blue);
-        font-weight: 600;
-        font-size: 0.8rem;
-    }
-    .input-dark {
-        width: 100%;
-        padding: 0.6rem 0.8rem;
-        border-radius: 0.5rem;
-        border: 1px solid var(--accent-blue);
-        background: rgba(255, 255, 255, 0.08);
-        color: white;
-        font-size: 0.95rem;
-        outline: none;
-        box-sizing: border-box;
-    }
-    .input-dark:focus { border: 2px solid var(--accent-blue); background: rgba(255, 255, 255, 0.12); }
-    .input-dark::placeholder { color: rgba(255, 255, 255, 0.4); }
-
-    .form-actions {
-        display: flex;
-        gap: 0.75rem;
-    }
-    .btn-cancel-dark {
-        padding: 0.6rem 1.2rem;
-        border-radius: 0.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: transparent;
-        color: white;
-        font-weight: 600;
-        cursor: pointer;
-    }
-    .btn-cancel-dark:hover { background: rgba(255, 255, 255, 0.1); }
-
     .dashboard-bar {
         display: flex;
         justify-content: space-between;
@@ -309,28 +270,4 @@
     .kpi-label { font-size: 0.7rem; color: var(--text-tertiary); letter-spacing: 1px; font-weight: bold; }
     .kpi-value { font-size: 1.8rem; font-weight: bold; color: white; }
     .kpi-value small { font-size: 0.9rem; font-weight: normal; color: var(--text-tertiary); }
-
-    .flex-2 { flex: 2; }
-
-    .row-edit { background: rgba(79, 131, 247, 0.12); }
-
-    .actions-cell { display: flex; gap: 0.3rem; justify-content: center; }
-    .btn-icon {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        width: 2rem;
-        height: 2rem;
-        border-radius: 0.4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 0.9rem;
-    }
-    .btn-icon:hover { background: rgba(255, 255, 255, 0.1); }
-    .btn-icon.del { color: #f87171; }
-    .btn-icon.edit { color: #60a5fa; }
-
-    .empty { text-align: center; padding: 2rem; color: var(--text-tertiary); font-style: italic; }
-    .font-bold { font-weight: 700; }
 </style>

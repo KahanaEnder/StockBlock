@@ -2,11 +2,11 @@
     import { lotesStore } from '$lib/stores/lotesStore';
 </script>
 
-<div class="card">
-    <h2>Lotes producidos</h2>
+<div class="card-glass">
+    <h2 class="section-title">Lotes producidos</h2>
 
     {#if $lotesStore.length === 0}
-        <p>No hay lotes registrados.</p>
+        <p class="empty">No hay lotes registrados.</p>
     {/if}
 
     {#each $lotesStore as lote}
@@ -20,15 +20,12 @@
 </div>
 
 <style>
-.card {
-    padding: 1rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+.card-glass {
+    padding: 1.5rem;
 }
 .item {
-    padding: .5rem;
-    border-bottom: 1px solid #ddd;
+    padding: .75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: .5rem;
 }
 </style>

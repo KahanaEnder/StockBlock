@@ -4,14 +4,6 @@
 
 <main class="dark-page info-page">
   <section class="hero">
-    <div class="hero-bg-animation">
-      <div class="particles">
-        {#each Array(10) as _}
-          <span class="particle"></span>
-        {/each}
-      </div>
-    </div>
-
     <div class="hero-content">
       <div class="logo-big">
         <img src={PlaceHolders.LOGO} alt={PlaceHolders.MECAMBLOCK} />
@@ -101,16 +93,6 @@
     overflow: hidden;
   }
 
-  .hero-bg-animation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    z-index: 1;
-  }
-
   .hero::before {
     content: '';
     position: absolute;
@@ -165,36 +147,6 @@
     animation: slideInUp 1s ease-out 0.3s both;
   }
 
-  .particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: radial-gradient(666px at 0.4% 48%, rgb(202, 204, 227) 0%, rgb(89, 89, 99) 97.5%);
-    border-radius: 50%;
-    opacity: 0;
-    animation: particle-rise 10s infinite ease-out;
-  }
-
-  .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-  .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
-  .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
-  .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
-  .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
-  .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
-  .particle:nth-child(7) { left: 70%; animation-delay: 6s; }
-  .particle:nth-child(8) { left: 80%; animation-delay: 7s; }
-  .particle:nth-child(9) { left: 90%; animation-delay: 8s; }
-  .particle:nth-child(10) { left: 95%; animation-delay: 9s; }
-
   /* Info sections */
   .info-section {
     padding: 3rem 2rem 4rem;
@@ -228,13 +180,13 @@
   }
 
   .info-card h3 {
-    color: var(--accent-blue);
+    color: var(--text-primary);
     font-size: 1.1rem;
     margin: 0 0 0.5rem;
   }
 
   .info-card p {
-    color: var(--text-tertiary);
+    color: var(--text-secondary );
     margin: 0;
     font-size: 0.95rem;
   }

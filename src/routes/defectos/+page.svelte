@@ -329,23 +329,6 @@
 </div>
 
 <style>
-  .msg {
-    padding: 1rem 1.5rem;
-    border-radius: 0.75rem;
-    font-weight: 600;
-    width: 100%;
-    max-width: 48rem;
-    text-align: center;
-  }
-  .msg-error { background: rgba(255, 77, 79, 0.15); color: #ff4d4f; border: 1px solid #ff4d4f; }
-  .msg-success { background: rgba(76, 175, 80, 0.15); color: #4caf50; border: 1px solid #4caf50; }
-
-  .section-title {
-    color: var(--accent-blue);
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
   .section-title.blue { color: #60a5fa; }
 
   .stats-row {
@@ -414,29 +397,6 @@
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
   }
-  .form-group-dark {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-  .form-group-dark label {
-    color: var(--accent-blue);
-    font-weight: 600;
-    font-size: 0.8rem;
-  }
-  .input-dark {
-    width: 100%;
-    padding: 0.6rem 0.8rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--accent-blue);
-    background: rgba(255, 255, 255, 0.08);
-    color: white;
-    font-size: 0.95rem;
-    outline: none;
-    box-sizing: border-box;
-  }
-  .input-dark:focus { border: 2px solid var(--accent-blue); background: rgba(255, 255, 255, 0.12); }
-  .input-dark::placeholder { color: rgba(255, 255, 255, 0.4); }
 
   .defect-list-cell {
     padding: 0.5rem 1rem !important;
@@ -461,18 +421,6 @@
   }
   .close-btn:hover { background: rgba(248, 113, 113, 0.15); }
 
-  .badge {
-    padding: 0.15rem 0.4rem;
-    border-radius: 0.3rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .badge.red { background: rgba(248, 113, 113, 0.2); color: #f87171; }
-  .badge.yellow { background: rgba(250, 204, 21, 0.2); color: #facc15; }
-  .badge.gray { background: rgba(156, 163, 175, 0.2); color: #9ca3af; }
-  .badge.green { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
-
   .segunda-mano-card {
     border: 1px solid rgba(96, 165, 250, 0.3);
     background: rgba(96, 165, 250, 0.08);
@@ -490,7 +438,6 @@
   }
 
   .text-muted-dark { color: var(--text-tertiary); }
-  .font-bold { font-weight: 700; }
   .text-red-400 { color: #f87171; }
   .text-green-400 { color: #4ade80; }
 </style>

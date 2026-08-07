@@ -190,7 +190,7 @@
 
 <h1 class="page-title">Reportes Mensuales</h1>
 
-<section>
+<section class="dark-section">
   <div class="report-container">
     <div class="report-header">
       <h2>Análisis de Desempeño</h2>
@@ -347,33 +347,6 @@
 </section>
 
 <style>
-  :global(body) {
-    background: linear-gradient(135deg, #0a0a0f 0%, #151520 25%, #1a1a2e 50%, #16213e 75%, #0f3460 100%);
-    min-height: 100vh;
-  }
-
-  .page-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -1px;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    text-shadow: 0 2px 16px #0008;
-    text-align: center;
-  }
-
-  section {
-    min-height: 100vh;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    gap: 2rem;
-    padding-bottom: 50px;
-    width: 100%;
-  }
-
   .report-container {
     width: 100%;
     max-width: 1400px;
@@ -404,44 +377,6 @@
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-  }
-
-  .btn {
-    border-radius: 1rem;
-    font-weight: 600;
-    padding: 0.7rem 1.5rem;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 1rem;
-  }
-
-  .btn-primary {
-    background: linear-gradient(90deg, #76a9fa 0%, #4f83f7 100%);
-    color: #fff;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px #4f83f733;
-  }
-
-  .btn-success {
-    background: linear-gradient(90deg, #4caf50 0%, #45a049 100%);
-    color: #fff;
-  }
-
-  .btn-success:hover {
-    transform: translateY(-2px);
-  }
-
-  .btn-info {
-    background: linear-gradient(90deg, #2196f3 0%, #1976d2 100%);
-    color: #fff;
-  }
-
-  .btn-info:hover {
-    transform: translateY(-2px);
   }
 
   .loading {
@@ -617,40 +552,6 @@
 
   table tbody tr:last-child td {
     border-bottom: none;
-  }
-
-  .volver-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    width: 100%;
-  }
-
-  .btn-outline-light {
-    background: transparent;
-    color: #fff;
-    border: 1.5px solid #fff;
-  }
-
-  .btn-outline-light:hover {
-    background: #fff;
-    color: #4f83f7;
-  }
-
-  .btn-lg {
-    font-size: 1.2rem;
-    padding: 0.8rem 2.2rem;
-  }
-
-  .volver-btn {
-    width: 100%;
-    max-width: 420px;
-    border-radius: 1.2rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
   }
 
   @media (max-width: 768px) {

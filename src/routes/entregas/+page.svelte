@@ -142,9 +142,9 @@
 
 </script>
 
-<h1 style="text-align: center; margin-top: 2rem;">Comprobante de entrega</h1>
+<h1 class="page-title">Comprobante de entrega</h1>
 
-<section>
+<section class="dark-section">
   <form on:submit|preventDefault={editingId ? saveEdit : add}>
     {#if errors.length}
       <ul class="err">{#each errors as e}<li>{e}</li>{/each}</ul>
@@ -221,7 +221,7 @@
 
   <SearchFilter placeholder="Buscar por cliente" on:change={onFilter} />
 
-  <table>
+  <table class="styled-table-dark">
     <thead>
       <tr>
         <th>ID</th>
@@ -289,13 +289,9 @@
 
 <style>
   .err { color: red; margin: 8px 0; }
-  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-  th, td { border: 1px solid #ddd; padding: 6px; text-align: left; vertical-align: middle; }
-  
+
   /* El form sigue siendo columna para los inputs */
   form{ display: flex; justify-content: center; flex-direction: column; align-items: center; gap: 2rem; }
-  
-  section{ min-height: 100vh; display: flex; justify-content: start; align-items: center; flex-direction: column; gap: 2rem; padding-bottom: 50px; }
 
   /* --- NUEVA CLASE para la fila de botones --- */
   .action-buttons-row {

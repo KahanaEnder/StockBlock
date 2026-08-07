@@ -239,24 +239,6 @@
 </div>
 
 <style>
-    .msg {
-        padding: 1rem 1.5rem;
-        border-radius: 0.75rem;
-        font-weight: 600;
-        width: 100%;
-        max-width: 48rem;
-        text-align: center;
-    }
-    .msg-error { background: rgba(255, 77, 79, 0.15); color: #ff4d4f; border: 1px solid #ff4d4f; }
-    .msg-success { background: rgba(76, 175, 80, 0.15); color: #4caf50; border: 1px solid #4caf50; }
-
-    .section-title {
-        color: var(--accent-blue);
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-    }
-
     .form-grid {
         display: grid;
         grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -267,91 +249,9 @@
         .form-grid { grid-template-columns: 1fr 1fr; }
     }
 
-    .form-group-dark {
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem;
-    }
-    .form-group-dark label {
-        color: var(--accent-blue);
-        font-weight: 600;
-        font-size: 0.8rem;
-    }
-    .input-dark {
-        width: 100%;
-        padding: 0.6rem 0.8rem;
-        border-radius: 0.5rem;
-        border: 1px solid var(--accent-blue);
-        background: rgba(255, 255, 255, 0.08);
-        color: white;
-        font-size: 0.95rem;
-        outline: none;
-        box-sizing: border-box;
-    }
-    .input-dark:focus { border: 2px solid var(--accent-blue); background: rgba(255, 255, 255, 0.12); }
-    .input-dark::placeholder { color: rgba(255, 255, 255, 0.4); }
-
-    .form-actions {
-        display: flex;
-        gap: 0.75rem;
-    }
-    .btn-cancel-dark {
-        padding: 0.6rem 1.2rem;
-        border-radius: 0.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: transparent;
-        color: white;
-        font-weight: 600;
-        cursor: pointer;
-    }
-    .btn-cancel-dark:hover { background: rgba(255, 255, 255, 0.1); }
-
     .toolbar {
         display: flex;
         gap: 1rem;
         margin-bottom: 1rem;
     }
-    .flex-1 { flex: 1; }
-    .flex-2 { flex: 2; }
-
-    .fechas-col { font-size: 0.75rem; color: var(--text-tertiary); }
-    .mod { color: #f59e0b; font-weight: bold; }
-
-    .row-alerta { background: rgba(250, 204, 21, 0.08); }
-    .row-agotado { background: rgba(248, 113, 113, 0.08); }
-    .row-edit { background: rgba(79, 131, 247, 0.12); }
-
-    .badge { padding: 0.2rem 0.5rem; border-radius: 0.3rem; font-size: 0.7rem; font-weight: 700; }
-    .badge.green { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
-    .badge.yellow { background: rgba(250, 204, 21, 0.2); color: #facc15; }
-    .badge.red { background: rgba(248, 113, 113, 0.2); color: #f87171; }
-
-    .tag {
-        background: rgba(255, 255, 255, 0.08);
-        padding: 0.15rem 0.4rem;
-        border-radius: 0.3rem;
-        font-size: 0.7rem;
-        color: var(--text-tertiary);
-        margin-left: 0.5rem;
-    }
-
-    .actions-cell { display: flex; gap: 0.3rem; justify-content: center; }
-    .btn-icon {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        width: 2rem;
-        height: 2rem;
-        border-radius: 0.4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 0.9rem;
-    }
-    .btn-icon:hover { background: rgba(255, 255, 255, 0.1); }
-    .btn-icon.del { color: #f87171; }
-    .btn-icon.edit { color: #60a5fa; }
-
-    .empty { text-align: center; padding: 2rem; color: var(--text-tertiary); font-style: italic; }
-    .font-bold { font-weight: 700; }
 </style>

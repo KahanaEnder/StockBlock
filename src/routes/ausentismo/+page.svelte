@@ -152,7 +152,7 @@
 
 <h1 class="page-title">Registro de Ausentismo</h1>
 
-<section>
+<section class="dark-section">
   <form onsubmit={handleSubmit} class="card">
     {#if errors.length}
       <ul class="err">{#each errors as e}<li>{e}</li>{/each}</ul>
@@ -216,7 +216,7 @@
   />
 
   <div class="table-container">
-    <table class="styled-table">
+    <table class="styled-table-dark">
       <thead>
         <tr>
           <th>ID</th>
@@ -288,33 +288,6 @@
 </section>
 
 <style>
-  :global(body) {
-    background: linear-gradient(135deg, #0a0a0f 0%, #151520 25%, #1a1a2e 50%, #16213e 75%, #0f3460 100%);
-    min-height: 100vh;
-  }
-
-  .page-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -1px;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    text-shadow: 0 2px 16px #0008;
-    text-align: center;
-  }
-
-  section {
-    min-height: 100vh;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    gap: 2rem;
-    padding-bottom: 50px;
-    width: 100%;
-  }
-
   .card {
     background: rgba(255, 255, 255, 0.07);
     border-radius: 1.5rem;
@@ -430,37 +403,6 @@
     padding: 1.2rem 0.5rem;
   }
 
-  .styled-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: transparent;
-    color: #fff;
-    font-size: 1.05rem;
-    border-radius: 1rem;
-    overflow: hidden;
-  }
-
-  .styled-table th,
-  .styled-table td {
-    padding: 0.7rem 0.8rem;
-    border-bottom: 1px solid #4f83f733;
-    text-align: left;
-    vertical-align: middle;
-    background: transparent;
-  }
-
-  .styled-table th {
-    background: rgba(79, 131, 247, 0.13);
-    font-weight: 700;
-    color: #76a9fa;
-    border-top: 1px solid #4f83f733;
-  }
-
-  .styled-table tr:last-child td {
-    border-bottom: none;
-  }
-
   .bold {
     font-weight: 700;
     color: #76a9fa;
@@ -530,79 +472,11 @@
     flex-wrap: wrap;
   }
 
-  .btn {
-    border-radius: 1rem;
-    font-weight: 600;
-    transition: all 0.2s;
-    box-shadow: 0 2px 8px #0001;
-    outline: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .btn-sm {
-    font-size: 0.95rem;
-    padding: 0.4rem 0.9rem;
-  }
-
-  .btn-success {
-    background: linear-gradient(90deg, #4caf50 0%, #45a049 100%);
-    color: #fff;
-  }
-
-  .btn-success:hover {
-    background: linear-gradient(90deg, #45a049 0%, #4caf50 100%);
-  }
-
-  .btn-danger {
-    background: #ff4d4f;
-    color: #fff;
-  }
-
-  .btn-danger:hover {
-    background: #d9363e;
-  }
-
-  .btn-outline-light {
-    background: transparent;
-    color: #fff;
-    border: 1.5px solid #fff;
-  }
-
-  .btn-outline-light:hover {
-    background: #fff;
-    color: #4f83f7;
-  }
-
-  .btn-lg {
-    font-size: 1.2rem;
-    padding: 0.8rem 2.2rem;
-  }
-
   .no-data {
     text-align: center;
     color: #bbbbbb;
     font-size: 1.2rem;
     padding: 2rem;
-  }
-
-  .volver-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    width: 100%;
-  }
-
-  .volver-btn {
-    width: 100%;
-    max-width: 480px;
-    border-radius: 1.2rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 12px #0002;
   }
 
   @media (max-width: 700px) {
@@ -614,8 +488,8 @@
     .table-container {
       max-width: 99vw;
     }
-    .styled-table th,
-    .styled-table td {
+    .styled-table-dark th,
+    .styled-table-dark td {
       font-size: 0.97rem;
       padding: 0.5rem 0.4rem;
     }

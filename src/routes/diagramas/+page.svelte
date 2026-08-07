@@ -300,7 +300,7 @@
 
 <h1 class="page-title">Visualización de Datos & Análisis</h1>
 
-<section>
+<section class="dark-section">
   <div class="diagrams-container">
     <div class="controls-header">
       <h2>Panel de Métricas</h2>
@@ -423,33 +423,6 @@
 </section>
 
 <style>
-  :global(body) {
-    background: linear-gradient(135deg, #0a0a0f 0%, #151520 25%, #1a1a2e 50%, #16213e 75%, #0f3460 100%);
-    min-height: 100vh;
-  }
-
-  .page-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -1px;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    text-shadow: 0 2px 16px #0008;
-    text-align: center;
-  }
-
-  section {
-    min-height: 100vh;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    gap: 2rem;
-    padding-bottom: 50px;
-    width: 100%;
-  }
-
   .diagrams-container {
     width: 100%;
     max-width: 1600px;
@@ -469,42 +442,6 @@
     color: #76a9fa;
     font-size: 1.8rem;
     margin: 0;
-  }
-
-  .btn {
-    border-radius: 1rem;
-    font-weight: 600;
-    padding: 0.7rem 1.5rem;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 1rem;
-  }
-
-  .btn-primary {
-    background: linear-gradient(90deg, #76a9fa 0%, #4f83f7 100%);
-    color: #fff;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px #4f83f733;
-  }
-
-  .btn-outline-light {
-    background: transparent;
-    color: #fff;
-    border: 1.5px solid #fff;
-  }
-
-  .btn-outline-light:hover {
-    background: #fff;
-    color: #4f83f7;
-  }
-
-  .btn-lg {
-    font-size: 1.2rem;
-    padding: 0.8rem 2.2rem;
   }
 
   .charts-grid {
@@ -564,16 +501,6 @@
     flex-wrap: wrap;
   }
 
-  .metric-badge {
-    background: rgba(118, 169, 250, 0.15);
-    color: #76a9fa;
-    padding: 0.4rem 0.8rem;
-    border-radius: 0.6rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: 1px solid rgba(118, 169, 250, 0.3);
-  }
-
   .metric-badge.positive {
     background: rgba(76, 175, 80, 0.15);
     color: #4caf50;
@@ -624,24 +551,6 @@
     color: rgba(255, 255, 255, 0.6);
     font-size: 0.95rem;
     margin: 0;
-  }
-
-  .volver-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    width: 100%;
-  }
-
-  .volver-btn {
-    width: 100%;
-    max-width: 420px;
-    border-radius: 1.2rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
   }
 
   @media (max-width: 1200px) {
