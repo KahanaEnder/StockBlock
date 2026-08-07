@@ -1,346 +1,189 @@
 <script lang="ts">
-
-  import { goto } from '$app/navigation'; 
-  import { authStore } from '$lib/stores/authStore';
-
-    function handleLogout() {
-        authStore.logout();
-        goto('/login');
-    }
-
+  import { PlaceHolders } from '$lib/constants/placeholders';
 </script>
 
-<main class="fondo">
-
-    
-
-  <nav id="navbar">
-        <div class="nav-container">
-
-            <div class="logo">
-                <div class="logo-icon">
-                  <img src="/images/mecamblocklogo.jpg" alt="MecamBlock logo">
-                </div>
-                <div class="logo-text">MecamBlock</div>
-            </div>
-            
-            <ul class="nav-links">
-                <li><a href="#home">Inventario</a></li>
-
-                <p style="font-size: 1.5rem; font-weight: 500;">¡Bienvenido!</p>
-                
-            </ul>
-
-            <button onclick={handleLogout} class="btn-logout">
-        Cerrar Sesión
-      </button>
-      
-        </div>
-      
-    </nav>
-
-    <section id="home" class="hero" >
-        <div class="hero-bg-animation">
-            <div class="particles">
-                {#each Array(10) as _}
+<main class="dark-page info-page">
+  <section class="hero">
+    <div class="hero-bg-animation">
+      <div class="particles">
+        {#each Array(10) as _}
           <span class="particle"></span>
         {/each}
-            </div>
-        </div>
+      </div>
+    </div>
 
-        <div class="hero-content">
-            <h1>MecamBlock</h1>
+    <div class="hero-content">
+      <div class="logo-big">
+        <img src={PlaceHolders.LOGO} alt={PlaceHolders.MECAMBLOCK} />
+      </div>
+      <h1>{PlaceHolders.MECAMBLOCK}</h1>
+      <p class="hero-subtitle">Sistema de gestión integral de producción, stock y calidad</p>
+    </div>
+  </section>
 
+  <section class="info-section">
+    <h2 class="page-title">Cómo usar la aplicación</h2>
+    <p class="info-lead">Usa el menú lateral para navegar entre los módulos del sistema:</p>
 
-        
-            <div class="cta-buttons">
-                <button onclick={() => goto('/stock')} class="cta-primary">Productos</button>
-                <button onclick={() => goto('/produccion')} class="cta-primary">Produccion Diaria</button>
-                <button onclick={() => goto('/defectos')} class="cta-primary">Defectos</button>
-                <button onclick={() => goto('/reportes')} class="cta-primary">Reportes</button>
-                <button onclick={() => goto('/mantenimiento')} class="cta-primary">Mantenimientos</button>
-                <button onclick={() => goto('/diagramas')} class="cta-primary">Diagramas</button>
-                <button onclick={() => goto('/pedidos')} class="cta-primary">Notificar pedidos</button>
-                <button onclick={() => goto('/entregas')} class="cta-primary">Entregas</button>
-                <button onclick={() => goto('/ausentismo')} class="cta-primary">Ausentismo</button>
-                <button onclick={() => goto('/lotes')} class="cta-primary">Lotes</button>
-            </div>
-            
-        
+    <div class="info-grid">
+      <div class="card-glass info-card">
+        <h3>Stock</h3>
+        <p>Gestiona el inventario de productos y sus cantidades.</p>
+      </div>
+      <div class="card-glass info-card">
+        <h3>Producción</h3>
+        <p>Registra la producción diaria por producto.</p>
+      </div>
+      <div class="card-glass info-card">
+        <h3>Defectos</h3>
+        <p>Control de defectos y artículos de segunda mano.</p>
+      </div>
+      <div class="card-glass info-card">
+        <h3>Reportes</h3>
+        <p>Consulta reportes mensuales con métricas del negocio.</p>
+      </div>
+      <div class="card-glass info-card">
+        <h3>Mantenimiento</h3>
+        <p>Registro de mantenimientos de la maquinaria.</p>
+      </div>
+      <div class="card-glass info-card">
+        <h3>Diagramas</h3>
+        <p>Visualiza datos y análisis con gráficos.</p>
+      </div>
+      <div class="card-glass info-card">
+        <h3>Pedidos</h3>
+        <p>Notifica pedidos de productos.</p>
+      </div>
+      <div class="card-glass info-card">
+        <h3>Entregas</h3>
+        <p>Registra entregas con firma del cliente.</p>
+      </div>
+      <div class="card-glass info-card">
+        <h3>Ausentismo</h3>
+        <p>Control de ausentismo de operarios.</p>
+      </div>
+      <div class="card-glass info-card">
+        <h3>Lotes</h3>
+        <p>Administración de lotes de producción.</p>
+      </div>
+    </div>
+  </section>
 
+  <section class="info-section">
+    <h2 class="page-title">Sobre la empresa</h2>
+    <div class="card-glass info-company">
+      <h3>H.V. MecamBlock CIA S.A.S</h3>
+      <p>Empresa dedicada a la fabricación de bloques y productos de concreto.</p>
+    </div>
+  </section>
 
-        
-         
-               
-
-
-        </div>
-    </section>
-
-    
-
-
-    <footer>
-        <div class="footer-bottom">
-            <p class="footer-copyright">
-                © 2025 H.V. MecamBlock CIA S.A.S 
-            </p>
-            
-        </div>
-    </footer>
-
+  <footer class="glass-footer">
+    <div class="footer-bottom">
+      <p class="footer-copyright">© 2025 H.V. MecamBlock CIA S.A.S</p>
+    </div>
+  </footer>
 </main>
 
 <style>
-
-  @charset "utf-8";
-
-  * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-  }
-
-  :root {
-      --glass-bg: rgba(255, 255, 255, 0.08);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --accent-blue: #76a9fa;
-      --accent-blue-dark: #4f83f7;
-      --accent-glow: rgba(118, 169, 250, 0.3);
-      --text-primary: #ffffff;
-      --text-secondary: rgba(255, 255, 255, 0.8);
-      --text-tertiary: rgba(255, 255, 255, 0.6);
-  }
-
-  .fondo{
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: linear-gradient(135deg, #0a0a0f 0%, #151520 25%, #1a1a2e 50%, #16213e 75%, #0f3460 100%);
-    background-attachment: fixed;
-    color: var(--text-primary);
+  .info-page {
     overflow-x: hidden;
-    min-height: 100vh;
     line-height: 1.6;
   }
 
-  
-
-  /* Navigation */
-  nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      padding: 1rem 0;
-      transition: all 0.3s ease;
-      background: rgba(15, 25, 35, 0.8);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-
-
-  .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-  }
-
- 
-
-
-
-  .logo {
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      
-      gap: 0.5rem;
-
-
-
-      text-decoration: none;
-      color: transparent;
-
-    
-    
-
-  }
-
-  .logo-icon {
+  /* Hero */
+  .hero {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border-radius: 10px;
-
+    padding: 120px 2rem 0;
+    position: relative;
+    overflow: hidden;
   }
 
-  .logo-icon img{
-    width: 10rem; 
-    height: 10rem; 
-    object-fit: cover; 
-    
-
-    border-radius: 1rem;
-    
-  }
-
-  .logo-text {
-
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-primary);
-
-  }
-
-
- 
-
-  .nav-links {
-    font-size: 1.5rem;
-      display: flex;
-      list-style: none;
-      gap: 1rem;
-  }
-
-  .nav-links a {
-      color: var(--text-primary);
-      text-decoration: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      position: relative;
-      border: 2px solid transparent;
-  }
-
-  .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: var(--accent-blue);
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-  }
-
-  .nav-links a:hover {
-      color: var(--accent-blue);
-      border-color: var(--accent-blue);
-      transform: translateY(-2px);
-      background: rgba(118, 169, 250, 0.1);
-  }
-
-  .nav-links a:hover::after {
-      width: 60%;
-  }
-
-
-
-  /* Section styling */
-  section {
-      padding: 5rem 0;
-      position: relative;
-  }
-
- 
-
-  /* Hero section */
-  .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 160px 2rem 0;
-      position: relative;
-      overflow: hidden;
-  }
-
-  /* Animated background elements */
   .hero-bg-animation {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      overflow: hidden;
-      z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: 1;
   }
 
-  @keyframes float {
-      0%, 100% {
-          transform: translate(0, 0) scale(1) rotate(0deg);
-      }
-      25% {
-          transform: translate(100px, -80px) scale(1.1) rotate(90deg);
-      }
-      50% {
-          transform: translate(-60px, 60px) scale(0.9) rotate(180deg);
-      }
-      75% {
-          transform: translate(80px, 100px) scale(1.05) rotate(270deg);
-      }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 25% 25%, var(--accent-glow) 0%, transparent 50%);
+    animation: hero-glow 8s ease-in-out infinite;
+    z-index: 1;
   }
 
-  @keyframes rotate-float {
-      0% {
-          transform: rotate(0deg) translateY(0);
-      }
-      50% {
-          transform: rotate(180deg) translateY(-50px);
-      }
-      100% {
-          transform: rotate(360deg) translateY(0);
-      }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .logo-big {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 1.5rem;
+  }
+
+  .logo-big img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    line-height: 1.1;
+    letter-spacing: -2px;
+    animation: slideInUp 1s ease-out;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-tertiary);
+    max-width: 600px;
+    animation: slideInUp 1s ease-out 0.3s both;
   }
 
   .particles {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
 
   .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: radial-gradient(666px at 0.4% 48%, rgb(202, 204, 227) 0%, rgb(89, 89, 99) 97.5%);
-      border-radius: 50%;
-      opacity: 0;
-      animation: particle-rise 10s infinite ease-out;
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(666px at 0.4% 48%, rgb(202, 204, 227) 0%, rgb(89, 89, 99) 97.5%);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particle-rise 10s infinite ease-out;
   }
 
-  @keyframes particle-rise {
-      0% {
-          opacity: 0;
-          transform: translateY(100vh) scale(0);
-      }
-      10% {
-          opacity: 1;
-      }
-      90% {
-          opacity: 1;
-      }
-      100% {
-          opacity: 0;
-          transform: translateY(-100px) scale(1);
-      }
-  }
-
-  /* Generate multiple particles */
   .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
   .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
   .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
@@ -352,155 +195,90 @@
   .particle:nth-child(9) { left: 90%; animation-delay: 8s; }
   .particle:nth-child(10) { left: 95%; animation-delay: 9s; }
 
-  .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at 25% 25%, var(--accent-glow) 0%, transparent 50%);
-      animation: hero-glow 8s ease-in-out infinite;
-      z-index: 1;
+  /* Info sections */
+  .info-section {
+    padding: 3rem 2rem 4rem;
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
-  @keyframes hero-glow {
-      0%, 100% { 
-          transform: scale(1) rotate(0deg);
-          opacity: 0.7;
-      }
-      50% { 
-          transform: scale(1.1) rotate(2deg);
-          opacity: 1;
-      }
+  .info-lead {
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
   }
 
-  .hero-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      max-width: 1000px;
-      margin: 0 auto;
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
   }
 
-  .hero h1 {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      color: var(--text-primary);
-      line-height: 1.1;
-      letter-spacing: -2px;
-      animation: slideInUp 1s ease-out;
+  .info-card {
+    padding: 1.5rem;
+    transition: all 0.3s ease;
   }
 
-
-  .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 2rem;
-      animation: slideInUp 1s ease-out 0.6s both;
-  }
-  .cta-primary {
-      padding: 1rem 2rem;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
+  .info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(31, 38, 135, 0.3);
   }
 
-  .cta-primary {
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
-      color: white;
-      box-shadow: 0 8px 25px var(--accent-glow);
+  .info-card h3 {
+    color: var(--accent-blue);
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
   }
 
-  .cta-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px var(--accent-glow);
-  }
-/*
-  .cta-secondary {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      color: white;
+  .info-card p {
+    color: var(--text-tertiary);
+    margin: 0;
+    font-size: 0.95rem;
   }
 
-  .cta-secondary:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-3px);
+  .info-company {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem;
   }
-*/
-  @keyframes slideInUp {
-      from {
-          opacity: 0;
-          transform: translateY(50px);
-      }
-      to {
-          opacity: 1;
-          transform: translateY(0);
-      }
+
+  .info-company h3 {
+    color: var(--accent-blue);
+    margin: 0 0 0.5rem;
+  }
+
+  .info-company p {
+    color: var(--text-tertiary);
+    margin: 0;
   }
 
   /* Footer */
-  footer {
-      background: linear-gradient(135deg, 
-          rgba(15, 25, 35, 0.95) 0%,
-          rgba(10, 15, 25, 0.95) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 2rem 0;
-      margin-top: 4rem;
-  }
-
   .footer-bottom {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .footer-copyright {
-      color: var(--text-tertiary);
-      font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+    margin: 0;
   }
 
-  .btn-logout {
-    padding: 0.6rem 1.5rem;
-    background: #ff4d4f;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
+  @media (max-width: 768px) {
+    .hero {
+      padding: 100px 1.5rem 0;
+    }
+
+    .info-section {
+      padding: 2rem 1.25rem 3rem;
+    }
   }
-
-  .btn-logout:hover {
-    background: #d9363e;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 77, 79, 0.3);
-  }
-
-
-
-
-
-
 </style>
-

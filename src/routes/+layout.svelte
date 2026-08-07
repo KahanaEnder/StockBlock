@@ -5,6 +5,7 @@
 	import { authStore } from '$lib/stores/authStore';
 	import {Routes} from '$lib/constants/routes';
 	import {PlaceHolders} from '$lib/constants/placeholders'
+	import Nav from '$lib/components/Nav.svelte';
  
 	let { children } = $props();
 	let authState = $state({ isLoggedIn: false, loading: true });
@@ -51,5 +52,12 @@
 		<div class="text-white text-xl">{PlaceHolders.LOADING}</div>
 	</div>
 {:else if canRender}
-	{@render children()}
+	{#if authState.isLoggedIn}
+		<Nav />
+		<div class="app-content">
+			{@render children()}
+		</div>
+	{:else}
+		{@render children()}
+	{/if}
 {/if}
