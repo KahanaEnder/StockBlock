@@ -64,6 +64,21 @@
             const registroEditado = produccion.find(p => p.id === idEdicion);
             if (registroEditado) {
                 const diferencia = cantidadInput - cantidadAnterior;
+
+                if (registroEditado.productoNombre !== productoSeleccionado) {
+                    const stockViejo = stock.find(i => i.nombre === registroEditado.productoNombre);
+                    if (stockViejo && cantidadAnterior > stockViejo.cantidad) {
+                        errorMsg = `No hay suficiente stock de ${registroEditado.productoNombre} para revertir la producción (quedan ${stockViejo.cantidad} unidades de ${cantidadAnterior} registradas)`;
+                        return;
+                    }
+                } else if (diferencia < 0) {
+                    const stockActual = stock.find(i => i.nombre === productoSeleccionado);
+                    if (stockActual && -diferencia > stockActual.cantidad) {
+                        errorMsg = `No hay suficiente stock de ${productoSeleccionado} para reducir la producción (quedan ${stockActual.cantidad} unidades)`;
+                        return;
+                    }
+                }
+
                 if (registroEditado.productoNombre !== productoSeleccionado) {
                     actualizarStock(registroEditado.productoNombre, -cantidadAnterior);
                     actualizarStock(productoSeleccionado, cantidadInput);

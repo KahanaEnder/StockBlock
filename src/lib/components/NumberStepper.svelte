@@ -10,6 +10,21 @@
   let paso = $state(10);
   const pasos = [1, 5, 10, 50, 100, 500, 1000];
 
+  let texto = $state('');
+
+  $effect(() => {
+    const v = value;
+    if (v === null || v === undefined) {
+      if (texto !== '') texto = '';
+      return;
+    }
+    if (typeof v === 'number' && Number.isNaN(v)) return;
+    const parsed = Number(texto);
+    if (Number.isNaN(parsed) || parsed !== v) {
+      texto = String(v);
+    }
+  });
+
   function clamp(n: number): number {
     if (min !== undefined && n < min) return min;
     if (max !== undefined && n > max) return max;
@@ -19,6 +34,17 @@
   function cambiar(delta: number) {
     const actual = typeof value === 'number' && !Number.isNaN(value) ? value : 0;
     value = clamp(actual + delta);
+  }
+
+  function manejarInput(event: Event) {
+    const textoDom = (event.currentTarget as HTMLInputElement).value;
+    texto = textoDom;
+    if (textoDom.trim() === '') {
+      value = null;
+      return;
+    }
+    const n = Number(textoDom);
+    value = Number.isNaN(n) ? NaN : clamp(n);
   }
 </script>
 
@@ -32,13 +58,16 @@
     −
   </button>
   <input
-    type="number"
+    type="text"
+    inputmode="decimal"
+    autocomplete="off"
     class="input-dark stepper-input"
     {id}
     {min}
     {max}
     {title}
-    bind:value
+    value={texto}
+    oninput={manejarInput}
     placeholder="0"
   />
   <button
@@ -70,6 +99,7 @@
 
   .stepper-input {
     flex: 1;
+    min-width: 5rem;
     text-align: center;
     -moz-appearance: textfield;
   }

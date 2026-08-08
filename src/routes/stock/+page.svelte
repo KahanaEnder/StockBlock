@@ -4,13 +4,14 @@
     import { goto } from '$app/navigation';
     import { Routes } from '$lib/constants/routes';
     import NumberStepper from '$lib/components/NumberStepper.svelte';
+    import { STOCK_COLORS, STOCK_COLOR_HEX } from '$lib/constants/stock-colors';
 
     // --- ESTADO PRINCIPAL ---
     let inventario: StockItem[] = [];
     let errorMsg = '';
     let successMsg = '';
 
-    stockStore.subscribe(value => { inventario = value; });
+    stockStore.subscribe(value => { inventario = value.map(i => ({ ...i, color: i.color || 'Gris' })); });
 
     // --- ESTADO DEL FORMULARIO Y EDICIÓN ---
     let modoEdicion = false;
@@ -19,22 +20,30 @@
     let nuevoNombre = '';
     let nuevaCantidad: number | null = null;
     let nuevaCategoria = '';
+    let nuevoColor = '';
     let nuevoMinimo: number | null = null;
 
     // --- ESTADO DE FILTROS (HU04) ---
     let busqueda = '';
     let categoriaFiltro = 'Todas';
+    let colorFiltro = 'Todos';
 
-    // --- CATEGORÍAS DINÁMICAS ---
+    // --- CATEGORÍAS Y COLORES DINÁMICOS ---
     $: categoriasExistentes = [...new Set(inventario.map(i => i.categoria).filter(Boolean))];
+    $: coloresExistentes = [...new Set(inventario.map(i => i.color).filter(Boolean))];
+
+    // Sugerencias para el formulario: colores predefinidos + los que ya existen en inventario
+    $: sugerenciasColores = [...new Set([...STOCK_COLORS, ...coloresExistentes])];
 
     // --- LÓGICA HU04 (Filtros) ---
     $: categoriasDisponibles = ['Todas', ...categoriasExistentes];
+    $: coloresDisponibles = ['Todos', ...sugerenciasColores];
 
     $: productosVisibles = inventario.filter(item => {
         const nombreMatch = item.nombre.toLowerCase().includes(busqueda.toLowerCase());
         const catMatch = categoriaFiltro === 'Todas' || item.categoria === categoriaFiltro;
-        return nombreMatch && catMatch;
+        const colMatch = colorFiltro === 'Todos' || item.color === colorFiltro;
+        return nombreMatch && catMatch && colMatch;
     });
 
     // --- UTILIDADES DE FECHA ---
@@ -48,28 +57,127 @@
     // --- ACCIONES DE GESTIÓN ---
     async function gestionarProducto() {
         if (!nuevoNombre.trim()) return;
-        const catFinal = nuevaCategoria.trim() === '' ? 'General' : nuevaCategoria;
-        const cantidadFinal = nuevaCantidad ?? 0;
-        const minimoFinal = nuevoMinimo ?? 0;
+        const nombreFinal = nuevoNombre.trim();
+        let catFinal = nuevaCategoria.trim() === '' ? 'General' : nuevaCategoria;
+        let colorFinal = nuevoColor.trim() === '' ? 'Gris' : nuevoColor;
         errorMsg = '';
         successMsg = '';
+
+        // --- Normalización de categoría y color (case-insensitive para evitar duplicados por mayúsculas/minúsculas) ---
+        const normalizaciones: string[] = [];
+
+        const catExistente = inventario.find(item =>
+            String(item.id) !== String(idEdicion) &&
+            item.categoria.trim().toLowerCase() === catFinal.trim().toLowerCase() &&
+            item.categoria.trim() !== catFinal.trim()
+        );
+        if (catExistente) {
+            normalizaciones.push(`categoría "${catFinal}" → "${catExistente.categoria}"`);
+            catFinal = catExistente.categoria;
+        }
+
+        const colorExistente = inventario.find(item =>
+            String(item.id) !== String(idEdicion) &&
+            (item.color || 'Gris').trim().toLowerCase() === colorFinal.trim().toLowerCase() &&
+            (item.color || 'Gris').trim() !== colorFinal.trim()
+        );
+        if (colorExistente) {
+            normalizaciones.push(`color "${colorFinal}" → "${colorExistente.color || 'Gris'}"`);
+            colorFinal = colorExistente.color || 'Gris';
+        }
+
+        const notaNormalizacion = normalizaciones.length > 0 ? ` — Normalizado: ${normalizaciones.join('; ')}` : '';
+
+        // --- Validaciones de lógica ---
+        const cantidadFinal = nuevaCantidad ?? 0;
+        const minimoFinal = nuevoMinimo ?? 0;
+
+        if (Number.isNaN(cantidadFinal)) {
+            errorMsg = 'La cantidad no es un número válido. Escribe solo números (0 si está vacío).';
+            return;
+        }
+        if (Number.isNaN(minimoFinal)) {
+            errorMsg = 'El stock mínimo no es un número válido. Escribe solo números (0 si está vacío).';
+            return;
+        }
+
+        if (cantidadFinal < 0) {
+            errorMsg = 'La cantidad no puede ser negativa.';
+            return;
+        }
+        if (minimoFinal < 0) {
+            errorMsg = 'El stock mínimo no puede ser negativo.';
+            return;
+        }
+        const colorSoloTexto = /^[\p{L}\s-]+$/u;
+        if (!colorSoloTexto.test(colorFinal) || !/\p{L}/u.test(colorFinal)) {
+            errorMsg = 'El color debe ser texto (letras, espacios o guiones), no puede ser solo números.';
+            return;
+        }
+        if (minimoFinal > cantidadFinal && cantidadFinal > 0) {
+            const continuar = confirm(
+                `El stock mínimo (${minimoFinal}) es mayor que la cantidad actual (${cantidadFinal}). ¿Continuar?`
+            );
+            if (!continuar) return;
+        }
+
+        // --- Validaciones de duplicados (solo al crear) ---
+        if (!(modoEdicion && idEdicion !== null)) {
+            // El nombre se compara case-insensitive; categoría y color case-sensitive (exactos)
+            const duplicados = inventario.filter(item =>
+                String(item.id) !== String(idEdicion) &&
+                item.nombre.trim().toLowerCase() === nombreFinal.toLowerCase()
+            );
+
+            const mismoNombreMismaCategoriaMismoColor = duplicados.some(item =>
+                item.categoria.trim() === catFinal.trim() &&
+                (item.color || '').trim() === colorFinal.trim()
+            );
+            if (mismoNombreMismaCategoriaMismoColor) {
+                errorMsg = `Error: ${nombreFinal} ya existe en la categoría "${catFinal}" con el color "${colorFinal}". No se puede crear un producto duplicado.`;
+                return;
+            }
+
+            const mismaCategoriaDistintoColor = duplicados.some(item =>
+                item.categoria.trim() === catFinal.trim()
+            );
+            if (mismaCategoriaDistintoColor) {
+                const coloresExistentesMsg = [...new Set(duplicados
+                    .filter(d => d.categoria.trim() === catFinal.trim())
+                    .map(d => d.color || 'Gris')
+                )].join(', ');
+                const confirmar = confirm(
+                    `Advertencia: ${nombreFinal} ya existe en la categoría "${catFinal}" con color(es) "${coloresExistentesMsg}". ` +
+                    `¿Seguro que quieres crearlo con el color "${colorFinal}"?`
+                );
+                if (!confirmar) return;
+            } else if (duplicados.length > 0) {
+                const categoriasExistentesMsg = [...new Set(duplicados.map(d => d.categoria))].join(', ');
+                const confirmar = confirm(
+                    `Advertencia: ${nombreFinal} ya existe en la categoría "${categoriasExistentesMsg}". ` +
+                    `¿Seguro que quieres crearlo en "${catFinal}"?`
+                );
+                if (!confirmar) return;
+            }
+        }
 
         try {
             if (modoEdicion && idEdicion !== null) {
                 stockStore.replace(item => String(item.id) === String(idEdicion), item => ({
                     ...item,
-                    nombre: nuevoNombre,
+                    nombre: nombreFinal,
                     cantidad: cantidadFinal,
                     categoria: catFinal,
+                    color: colorFinal,
                     stockMinimo: minimoFinal,
                     fechaModificacion: new Date().toISOString()
                 }));
-                successMsg = 'Producto actualizado';
+                successMsg = 'Producto actualizado' + notaNormalizacion;
                 cancelarEdicion();
             } else {
-                const nuevoItem = new StockItem(nuevoNombre, cantidadFinal, catFinal, minimoFinal);
+                const nuevoItem = new StockItem(nombreFinal, cantidadFinal, catFinal, minimoFinal, colorFinal);
                 await stockStore.add(nuevoItem);
-                successMsg = 'Producto registrado';
+                successMsg = 'Producto registrado' + notaNormalizacion;
                 limpiarFormulario();
             }
         } catch (e: any) {
@@ -81,6 +189,7 @@
         nuevoNombre = item.nombre;
         nuevaCantidad = item.cantidad;
         nuevaCategoria = item.categoria;
+        nuevoColor = item.color || 'Gris';
         nuevoMinimo = item.stockMinimo;
         idEdicion = item.id;
         modoEdicion = true;
@@ -97,6 +206,7 @@
         nuevoNombre = '';
         nuevaCantidad = null;
         nuevaCategoria = '';
+        nuevoColor = '';
         nuevoMinimo = null;
     }
 
@@ -128,7 +238,7 @@
             <h2 class="section-title">{modoEdicion ? '✏️ Editando Producto' : '➕ Registrar Nuevo Producto'}</h2>
 
             <div class="form-grid">
-                <div class="form-group-dark">
+                <div class="form-group-dark span-2">
                     <label for="nombre">Nombre</label>
                     <input id="nombre" type="text" placeholder="Ej: Arena" bind:value={nuevoNombre} class="input-dark" />
                 </div>
@@ -142,10 +252,19 @@
                     </datalist>
                 </div>
                 <div class="form-group-dark">
+                    <label for="color" title="Déjalo vacío para usar Gris por defecto">Color</label>
+                    <input id="color" type="text" placeholder="Gris (por defecto)" list="lista-colores" bind:value={nuevoColor} class="input-dark" />
+                    <datalist id="lista-colores">
+                        {#each sugerenciasColores as c}
+                            <option value={c}></option>
+                        {/each}
+                    </datalist>
+                </div>
+                <div class="form-group-dark span-2">
                     <label for="cantidad" title="Cantidad inicial de unidades del producto">Cantidad</label>
                     <NumberStepper id="cantidad" bind:value={nuevaCantidad} min={0} />
                 </div>
-                <div class="form-group-dark">
+                <div class="form-group-dark span-2">
                     <label for="minimo" title="Cantidad mínima de unidades para alertar reposición">Stock Mínimo</label>
                     <NumberStepper id="minimo" bind:value={nuevoMinimo} min={0} />
                 </div>
@@ -178,6 +297,14 @@
                         {/each}
                     </select>
                 </div>
+                <div class="form-group-dark flex-1">
+                    <label for="filtro-color">Color</label>
+                    <select id="filtro-color" bind:value={colorFiltro} class="input-dark">
+                        {#each coloresDisponibles as c}
+                            <option value={c}>{c}</option>
+                        {/each}
+                    </select>
+                </div>
             </div>
 
             <div class="overflow-x-auto">
@@ -199,6 +326,9 @@
                                 <td>
                                     <strong>{item.nombre}</strong>
                                     <span class="tag">{item.categoria}</span>
+                                    <span class="color-chip" style={`--chip-bg: ${STOCK_COLOR_HEX[item.color] || '#9CA3AF'}`}>
+                                        {item.color}
+                                    </span>
                                 </td>
                                 <td class="fechas-col">
                                     <div>Creado: {formatearFecha(item.fechaCreacion)}</div>
@@ -248,10 +378,11 @@
 <style>
     .form-grid {
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr;
+        grid-template-columns: repeat(4, 1fr);
         gap: 1rem;
         margin-bottom: 1rem;
     }
+    .span-2 { grid-column: span 2; }
     @media (max-width: 768px) {
         .form-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -260,5 +391,17 @@
         display: flex;
         gap: 1rem;
         margin-bottom: 1rem;
+    }
+
+    .color-chip {
+        display: inline-block;
+        margin-left: 0.5rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 0.3rem;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #111827;
+        background: color-mix(in srgb, var(--chip-bg, #9CA3AF) 55%, white);
+        border: 1px solid color-mix(in srgb, var(--chip-bg, #9CA3AF) 70%, black);
     }
 </style>

@@ -114,6 +114,11 @@
       errorMsg = `No puede superar la cantidad producida (${reg.cantidad})`;
       return;
     }
+    const stockDisponible = productos.find(p => p.nombre === productoSeleccionado);
+    if (stockDisponible && cantDefectuosa > stockDisponible.cantidad) {
+      errorMsg = `No hay suficiente stock (quedan ${stockDisponible.cantidad} unidades de ${productoSeleccionado})`;
+      return;
+    }
     if (!descripcionDefecto.trim()) {
       errorMsg = 'Describe el defecto';
       return;
