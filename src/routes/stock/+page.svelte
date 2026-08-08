@@ -27,6 +27,9 @@
     let busqueda = '';
     let categoriaFiltro = 'Todas';
     let colorFiltro = 'Todos';
+    let estadoFiltro = 'Todos';
+    let agruparEstado = 'disp-bajo-ago';
+    let ordenStock = 'ninguno';
 
     // --- CATEGORÍAS Y COLORES DINÁMICOS ---
     $: categoriasExistentes = [...new Set(inventario.map(i => i.categoria).filter(Boolean))];
@@ -39,12 +42,42 @@
     $: categoriasDisponibles = ['Todas', ...categoriasExistentes];
     $: coloresDisponibles = ['Todos', ...sugerenciasColores];
 
-    $: productosVisibles = inventario.filter(item => {
-        const nombreMatch = item.nombre.toLowerCase().includes(busqueda.toLowerCase());
-        const catMatch = categoriaFiltro === 'Todas' || item.categoria === categoriaFiltro;
-        const colMatch = colorFiltro === 'Todos' || item.color === colorFiltro;
-        return nombreMatch && catMatch && colMatch;
-    });
+    function estadoDe(item: StockItem): 'disponible' | 'bajo' | 'agotado' {
+        if (item.cantidad <= 0) return 'agotado';
+        if (item.cantidad < item.stockMinimo) return 'bajo';
+        return 'disponible';
+    }
+
+    function rankEstado(item: StockItem, agrupar: string): number {
+        const e = estadoDe(item);
+        if (agrupar === 'ago-bajo-disp') return e === 'agotado' ? 0 : e === 'bajo' ? 1 : 2;
+        return e === 'disponible' ? 0 : e === 'bajo' ? 1 : 2;
+    }
+
+    function calcularProductosVisibles(
+        busqueda: string,
+        categoriaFiltro: string,
+        colorFiltro: string,
+        estadoFiltro: string,
+        agruparEstado: string,
+        ordenStock: string,
+        inventario: StockItem[]
+    ): StockItem[] {
+        return inventario.filter(item => {
+            const nombreMatch = item.nombre.toLowerCase().includes(busqueda.toLowerCase());
+            const catMatch = categoriaFiltro === 'Todas' || item.categoria === categoriaFiltro;
+            const colMatch = colorFiltro === 'Todos' || item.color === colorFiltro;
+            return nombreMatch && catMatch && colMatch;
+        }).filter(item => estadoFiltro === 'Todos' || estadoDe(item) === estadoFiltro).sort((a, b) => {
+            const porEstado = rankEstado(a, agruparEstado) - rankEstado(b, agruparEstado);
+            if (porEstado !== 0) return porEstado;
+            if (ordenStock === 'asc') return a.cantidad - b.cantidad;
+            if (ordenStock === 'desc') return b.cantidad - a.cantidad;
+            return 0;
+        });
+    }
+
+    $: productosVisibles = calcularProductosVisibles(busqueda, categoriaFiltro, colorFiltro, estadoFiltro, agruparEstado, ordenStock, inventario);
 
     // --- UTILIDADES DE FECHA ---
     function formatearFecha(isoString: string | null): string {
@@ -303,6 +336,33 @@
                         {#each coloresDisponibles as c}
                             <option value={c}>{c}</option>
                         {/each}
+                    </select>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="form-group-dark flex-1">
+                    <label for="filtro-estado">Estado</label>
+                    <select id="filtro-estado" bind:value={estadoFiltro} class="input-dark">
+                        <option value="Todos">Todos</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="bajo">Stock Bajo</option>
+                        <option value="agotado">Agotado</option>
+                    </select>
+                </div>
+                <div class="form-group-dark flex-1">
+                    <label for="agrupar-estado">Agrupar por Estado</label>
+                    <select id="agrupar-estado" bind:value={agruparEstado} class="input-dark">
+                        <option value="disp-bajo-ago">Disponible → Stock Bajo → Agotado</option>
+                        <option value="ago-bajo-disp">Agotado → Stock Bajo → Disponible</option>
+                    </select>
+                </div>
+                <div class="form-group-dark flex-1">
+                    <label for="orden-stock">Ordenar Stock</label>
+                    <select id="orden-stock" bind:value={ordenStock} class="input-dark">
+                        <option value="ninguno">Sin orden</option>
+                        <option value="asc">Menor → Mayor</option>
+                        <option value="desc">Mayor → Menor</option>
                     </select>
                 </div>
             </div>
