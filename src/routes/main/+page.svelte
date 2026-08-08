@@ -142,7 +142,7 @@
 
   .hero-subtitle {
     font-size: 1.25rem;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
     max-width: 600px;
     animation: slideInUp 1s ease-out 0.3s both;
   }

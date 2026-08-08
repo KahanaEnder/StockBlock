@@ -3,6 +3,7 @@
     import { stockStore } from '$lib/stores/stockStore';
     import { goto } from '$app/navigation';
     import { Routes } from '$lib/constants/routes';
+    import NumberStepper from '$lib/components/NumberStepper.svelte';
 
     // --- ESTADO PRINCIPAL ---
     let inventario: StockItem[] = [];
@@ -16,16 +17,19 @@
     let idEdicion: string | number | null = null;
 
     let nuevoNombre = '';
-    let nuevaCantidad = 0;
+    let nuevaCantidad: number | null = null;
     let nuevaCategoria = '';
-    let nuevoMinimo = 5;
+    let nuevoMinimo: number | null = null;
 
     // --- ESTADO DE FILTROS (HU04) ---
     let busqueda = '';
     let categoriaFiltro = 'Todas';
 
+    // --- CATEGORÍAS DINÁMICAS ---
+    $: categoriasExistentes = [...new Set(inventario.map(i => i.categoria).filter(Boolean))];
+
     // --- LÓGICA HU04 (Filtros) ---
-    $: categoriasDisponibles = ['Todas', ...new Set(inventario.map(i => i.categoria).filter(c => c))];
+    $: categoriasDisponibles = ['Todas', ...categoriasExistentes];
 
     $: productosVisibles = inventario.filter(item => {
         const nombreMatch = item.nombre.toLowerCase().includes(busqueda.toLowerCase());
@@ -45,6 +49,8 @@
     async function gestionarProducto() {
         if (!nuevoNombre.trim()) return;
         const catFinal = nuevaCategoria.trim() === '' ? 'General' : nuevaCategoria;
+        const cantidadFinal = nuevaCantidad ?? 0;
+        const minimoFinal = nuevoMinimo ?? 0;
         errorMsg = '';
         successMsg = '';
 
@@ -53,15 +59,15 @@
                 stockStore.replace(item => String(item.id) === String(idEdicion), item => ({
                     ...item,
                     nombre: nuevoNombre,
-                    cantidad: nuevaCantidad,
+                    cantidad: cantidadFinal,
                     categoria: catFinal,
-                    stockMinimo: nuevoMinimo,
+                    stockMinimo: minimoFinal,
                     fechaModificacion: new Date().toISOString()
                 }));
                 successMsg = 'Producto actualizado';
                 cancelarEdicion();
             } else {
-                const nuevoItem = new StockItem(nuevoNombre, nuevaCantidad, catFinal, nuevoMinimo);
+                const nuevoItem = new StockItem(nuevoNombre, cantidadFinal, catFinal, minimoFinal);
                 await stockStore.add(nuevoItem);
                 successMsg = 'Producto registrado';
                 limpiarFormulario();
@@ -89,9 +95,9 @@
 
     function limpiarFormulario() {
         nuevoNombre = '';
-        nuevaCantidad = 0;
+        nuevaCantidad = null;
         nuevaCategoria = '';
-        nuevoMinimo = 5;
+        nuevoMinimo = null;
     }
 
     function eliminarProducto(id: string | number) {
@@ -130,17 +136,18 @@
                     <label for="categoria">Categoría</label>
                     <input id="categoria" type="text" placeholder="Ej: Materiales" list="lista-cat" bind:value={nuevaCategoria} class="input-dark" />
                     <datalist id="lista-cat">
-                        <option value="Materiales"></option>
-                        <option value="Herramientas"></option>
+                        {#each categoriasExistentes as cat}
+                            <option value={cat}></option>
+                        {/each}
                     </datalist>
                 </div>
                 <div class="form-group-dark">
-                    <label for="cantidad">Cantidad</label>
-                    <input id="cantidad" type="number" bind:value={nuevaCantidad} class="input-dark" />
+                    <label for="cantidad" title="Cantidad inicial de unidades del producto">Cantidad</label>
+                    <NumberStepper id="cantidad" bind:value={nuevaCantidad} min={0} />
                 </div>
                 <div class="form-group-dark">
-                    <label for="minimo">Stock Mínimo</label>
-                    <input id="minimo" type="number" bind:value={nuevoMinimo} class="input-dark" />
+                    <label for="minimo" title="Cantidad mínima de unidades para alertar reposición">Stock Mínimo</label>
+                    <NumberStepper id="minimo" bind:value={nuevoMinimo} min={0} />
                 </div>
             </div>
 
