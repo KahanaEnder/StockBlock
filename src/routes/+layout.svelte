@@ -34,6 +34,13 @@
 			return;
 		}
 
+		// Si está logueado y entra a /login, nunca mostrar login: ir a inicio
+		if (authState.isLoggedIn && publicRoutes.includes(path)) {
+			goto(Routes.MAIN, { replaceState: true });
+			canRender = false;
+			return;
+		}
+
 		const isPublicRoute = publicRoutes.includes(path);
 		canRender = authState.isLoggedIn || isPublicRoute;
 
